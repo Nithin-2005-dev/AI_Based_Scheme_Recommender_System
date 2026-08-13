@@ -1,0 +1,72 @@
+# ===== Core Framework =====
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+python-multipart==0.0.20
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+bcrypt==4.2.1
+
+# ===== Database =====
+sqlalchemy[asyncio]==2.0.36
+asyncpg==0.30.0
+aiosqlite==0.20.0
+alembic==1.14.1
+psycopg2-binary==2.9.10
+
+# ===== Validation & Serialization =====
+pydantic==2.10.4
+pydantic-settings==2.7.1
+email-validator==2.2.0
+
+# ===== Security =====
+cryptography==44.0.0
+python-jose[cryptography]==3.3.0
+
+# ===== HTTP & Networking =====
+httpx==0.28.1
+aiohttp==3.11.11
+aiosmtplib==3.0.2
+
+# ===== ML & AI =====
+scikit-learn==1.6.1
+numpy==2.2.1
+pandas==2.2.3
+sentence-transformers==3.3.1
+faiss-cpu==1.9.0.post1
+torch==2.5.1
+
+# ===== NLP =====
+nltk==3.9.1
+rapidfuzz==3.11.0
+
+# ===== RAG =====
+langchain==0.3.14
+langchain-community==0.3.14
+langchain-core==0.3.29
+
+# ===== Task Scheduling =====
+apscheduler==3.11.0
+
+# ===== Caching =====
+redis==5.2.1
+aioredis==2.0.1
+
+# ===== Rate Limiting =====
+slowapi==0.1.9
+
+# ===== Logging =====
+loguru==0.7.3
+
+# ===== Testing =====
+pytest==8.3.4
+pytest-asyncio==0.25.0
+httpx==0.28.1
+pytest-cov==6.0.0
+
+# ===== CSV Processing =====
+chardet==5.2.0
+
+# ===== Utilities =====
+python-dotenv==1.0.1
+Jinja2==3.1.5
+bleach==6.2.0

@@ -1,0 +1,82 @@
+Run started:2026-08-04 19:21:13.691670+00:00
+
+Test results:
+>> Issue: [B104:hardcoded_bind_all_interfaces] Possible binding to all interfaces.
+   Severity: Medium   Confidence: Medium
+   CWE: CWE-605 (https://cwe.mitre.org/data/definitions/605.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b104_hardcoded_bind_all_interfaces.html
+   Location: app\core\config.py:23:16
+22	    # ===== Server =====
+23	    HOST: str = "0.0.0.0"
+24	    PORT: int = 8000
+
+--------------------------------------------------
+>> Issue: [B105:hardcoded_password_string] Possible hardcoded password: 'bearer'
+   Severity: Low   Confidence: Medium
+   CWE: CWE-259 (https://cwe.mitre.org/data/definitions/259.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b105_hardcoded_password_string.html
+   Location: app\services\auth_service.py:219:12
+218	            "refresh_token": refresh_token,
+219	            "token_type": "bearer",
+220	            "expires_in": settings.JWT_ACCESS_TOKEN_EXPIRE_MINUTES * 60,
+221	            "user": {
+222	                "id": user.id,
+223	                "email": user.email,
+224	                "full_name": user.full_name,
+225	                "role": user.role,
+226	                "is_email_verified": user.is_email_verified,
+227	                "profile_completed": user.profile_completed,
+228	            },
+229	        }
+
+--------------------------------------------------
+>> Issue: [B105:hardcoded_password_string] Possible hardcoded password: 'पासवर्ड'
+   Severity: Low   Confidence: Medium
+   CWE: CWE-259 (https://cwe.mitre.org/data/definitions/259.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b105_hardcoded_password_string.html
+   Location: app\services\translation_service.py:37:33
+36	        "occupation": "व्यवसाय", "education": "शिक्षा", "name": "नाम",
+37	        "email": "ईमेल", "password": "पासवर्ड", "submit": "जमा करें",
+38	        "save": "सहेजें", "cancel": "रद्द करें", "delete": "हटाएं",
+39	        "edit": "संपादित करें", "view": "देखें", "back": "वापस",
+40	        "next": "अगला", "previous": "पिछला", "loading": "लोड हो रहा है",
+41	        "no_results": "कोई परिणाम नहीं", "welcome": "स्वागत है",
+42	        "eligible": "पात्र", "not_eligible": "अपात्र",
+43	        "partially_eligible": "आंशिक रूप से पात्र",
+44	        "deadline": "अंतिम तिथि", "application_process": "आवेदन प्रक्रिया",
+45	        "required_documents": "आवश्यक दस्तावेज़",
+46	        "scheme_details": "योजना विवरण", "filter": "फ़िल्टर",
+47	        "all": "सभी", "farmer": "किसान", "student": "छात्र",
+48	        "women": "महिला", "senior_citizen": "वरिष्ठ नागरिक",
+49	        "disabled": "दिव्यांग", "business_owner": "व्यवसाय स्वामी",
+50	    },
+51	    "te": {
+52	        "home": "హోమ్", "search": "శోధించు", "schemes": "పథకాలు",
+53	        "profile": "ప్రొఫైల్", "login": "లాగిన్", "signup": "సైన్ అప్",
+54	        "eligibility": "అర్హత", "benefits": "ప్రయోజనాలు", "documents": "పత్రాలు",
+55	        "apply": "దరఖాస్తు చేయండి", "notifications": "నోటిఫికేషన్‌లు",
+56	        "dashboard": "డాష్‌బోర్డ్", "recommendations": "సిఫార్సులు",
+57	        "chatbot": "చాట్‌బాట్", "settings": "సెట్టింగ్‌లు", "logout": "లాగ్ అవుట్",
+58	        "central": "కేంద్ర", "state": "రాష్ట్ర", "category": "వర్గం",
+59	        "income": "ఆదాయం", "age": "వయస్సు", "gender": "లింగం",
+60	        "occupation": "వృత్తి", "education": "విద్య", "name": "పేరు",
+
+--------------------------------------------------
+
+Code scanned:
+	Total lines of code: 4075
+	Total lines skipped (#nosec): 0
+	Total potential issues skipped due to specifically being disabled (e.g., #nosec BXXX): 0
+
+Run metrics:
+	Total issues (by severity):
+		Undefined: 0
+		Low: 2
+		Medium: 1
+		High: 0
+	Total issues (by confidence):
+		Undefined: 0
+		Low: 0
+		Medium: 3
+		High: 0
+Files skipped (0):

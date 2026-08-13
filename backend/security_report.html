@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+
+<title>
+    Bandit Report
+</title>
+
+<style>
+
+html * {
+    font-family: "Arial", sans-serif;
+}
+
+pre {
+    font-family: "Monaco", monospace;
+}
+
+.bordered-box {
+    border: 1px solid black;
+    padding-top:.5em;
+    padding-bottom:.5em;
+    padding-left:1em;
+}
+
+.metrics-box {
+    font-size: 1.1em;
+    line-height: 130%;
+}
+
+.metrics-title {
+    font-size: 1.5em;
+    font-weight: 500;
+    margin-bottom: .25em;
+}
+
+.issue-description {
+    font-size: 1.3em;
+    font-weight: 500;
+}
+
+.candidate-issues {
+    margin-left: 2em;
+    border-left: solid 1px; LightGray;
+    padding-left: 5%;
+    margin-top: .2em;
+    margin-bottom: .2em;
+}
+
+.issue-block {
+    border: 1px solid LightGray;
+    padding-left: .5em;
+    padding-top: .5em;
+    padding-bottom: .5em;
+    margin-bottom: .5em;
+}
+
+.issue-sev-high {
+    background-color: Pink;
+}
+
+.issue-sev-medium {
+    background-color: NavajoWhite;
+}
+
+.issue-sev-low {
+    background-color: LightCyan;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="metrics">
+    <div class="metrics-box bordered-box">
+        <div class="metrics-title">
+            Metrics:<br>
+        </div>
+        Total lines of code: <span id="loc">4075</span><br>
+        Total lines skipped (#nosec): <span id="nosec">0</span>
+    </div>
+</div>
+
+
+
+
+<br>
+<div id="results">
+    
+<div id="issue-0">
+<div class="issue-block issue-sev-medium">
+    <b>hardcoded_bind_all_interfaces: </b> Possible binding to all interfaces.<br>
+    <b>Test ID:</b> B104<br>
+    <b>Severity: </b>MEDIUM<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/605.html" target="_blank">CWE-605</a><br>
+    <b>File: </b><a href="app\core\config.py" target="_blank">app\core\config.py</a><br>
+    <b>Line number: </b>23<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.4/plugins/b104_hardcoded_bind_all_interfaces.html" target="_blank">https://bandit.readthedocs.io/en/1.9.4/plugins/b104_hardcoded_bind_all_interfaces.html</a><br>
+
+<div class="code">
+<pre>
+22	    # ===== Server =====
+23	    HOST: str = &quot;0.0.0.0&quot;
+24	    PORT: int = 8000
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-1">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'bearer'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/259.html" target="_blank">CWE-259</a><br>
+    <b>File: </b><a href="app\services\auth_service.py" target="_blank">app\services\auth_service.py</a><br>
+    <b>Line number: </b>219<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.4/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/1.9.4/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+218	            &quot;refresh_token&quot;: refresh_token,
+219	            &quot;token_type&quot;: &quot;bearer&quot;,
+220	            &quot;expires_in&quot;: settings.JWT_ACCESS_TOKEN_EXPIRE_MINUTES * 60,
+221	            &quot;user&quot;: {
+222	                &quot;id&quot;: user.id,
+223	                &quot;email&quot;: user.email,
+224	                &quot;full_name&quot;: user.full_name,
+225	                &quot;role&quot;: user.role,
+226	                &quot;is_email_verified&quot;: user.is_email_verified,
+227	                &quot;profile_completed&quot;: user.profile_completed,
+228	            },
+229	        }
+</pre>
+</div>
+
+
+</div>
+</div>
+
+<div id="issue-2">
+<div class="issue-block issue-sev-low">
+    <b>hardcoded_password_string: </b> Possible hardcoded password: 'पासवर्ड'<br>
+    <b>Test ID:</b> B105<br>
+    <b>Severity: </b>LOW<br>
+    <b>Confidence: </b>MEDIUM<br>
+    <b>CWE: </b><a href="https://cwe.mitre.org/data/definitions/259.html" target="_blank">CWE-259</a><br>
+    <b>File: </b><a href="app\services\translation_service.py" target="_blank">app\services\translation_service.py</a><br>
+    <b>Line number: </b>37<br>
+    <b>More info: </b><a href="https://bandit.readthedocs.io/en/1.9.4/plugins/b105_hardcoded_password_string.html" target="_blank">https://bandit.readthedocs.io/en/1.9.4/plugins/b105_hardcoded_password_string.html</a><br>
+
+<div class="code">
+<pre>
+36	        &quot;occupation&quot;: &quot;व्यवसाय&quot;, &quot;education&quot;: &quot;शिक्षा&quot;, &quot;name&quot;: &quot;नाम&quot;,
+37	        &quot;email&quot;: &quot;ईमेल&quot;, &quot;password&quot;: &quot;पासवर्ड&quot;, &quot;submit&quot;: &quot;जमा करें&quot;,
+38	        &quot;save&quot;: &quot;सहेजें&quot;, &quot;cancel&quot;: &quot;रद्द करें&quot;, &quot;delete&quot;: &quot;हटाएं&quot;,
+39	        &quot;edit&quot;: &quot;संपादित करें&quot;, &quot;view&quot;: &quot;देखें&quot;, &quot;back&quot;: &quot;वापस&quot;,
+40	        &quot;next&quot;: &quot;अगला&quot;, &quot;previous&quot;: &quot;पिछला&quot;, &quot;loading&quot;: &quot;लोड हो रहा है&quot;,
+41	        &quot;no_results&quot;: &quot;कोई परिणाम नहीं&quot;, &quot;welcome&quot;: &quot;स्वागत है&quot;,
+42	        &quot;eligible&quot;: &quot;पात्र&quot;, &quot;not_eligible&quot;: &quot;अपात्र&quot;,
+43	        &quot;partially_eligible&quot;: &quot;आंशिक रूप से पात्र&quot;,
+44	        &quot;deadline&quot;: &quot;अंतिम तिथि&quot;, &quot;application_process&quot;: &quot;आवेदन प्रक्रिया&quot;,
+45	        &quot;required_documents&quot;: &quot;आवश्यक दस्तावेज़&quot;,
+46	        &quot;scheme_details&quot;: &quot;योजना विवरण&quot;, &quot;filter&quot;: &quot;फ़िल्टर&quot;,
+47	        &quot;all&quot;: &quot;सभी&quot;, &quot;farmer&quot;: &quot;किसान&quot;, &quot;student&quot;: &quot;छात्र&quot;,
+48	        &quot;women&quot;: &quot;महिला&quot;, &quot;senior_citizen&quot;: &quot;वरिष्ठ नागरिक&quot;,
+49	        &quot;disabled&quot;: &quot;दिव्यांग&quot;, &quot;business_owner&quot;: &quot;व्यवसाय स्वामी&quot;,
+50	    },
+51	    &quot;te&quot;: {
+52	        &quot;home&quot;: &quot;హోమ్&quot;, &quot;search&quot;: &quot;శోధించు&quot;, &quot;schemes&quot;: &quot;పథకాలు&quot;,
+53	        &quot;profile&quot;: &quot;ప్రొఫైల్&quot;, &quot;login&quot;: &quot;లాగిన్&quot;, &quot;signup&quot;: &quot;సైన్ అప్&quot;,
+54	        &quot;eligibility&quot;: &quot;అర్హత&quot;, &quot;benefits&quot;: &quot;ప్రయోజనాలు&quot;, &quot;documents&quot;: &quot;పత్రాలు&quot;,
+55	        &quot;apply&quot;: &quot;దరఖాస్తు చేయండి&quot;, &quot;notifications&quot;: &quot;నోటిఫికేషన్‌లు&quot;,
+56	        &quot;dashboard&quot;: &quot;డాష్‌బోర్డ్&quot;, &quot;recommendations&quot;: &quot;సిఫార్సులు&quot;,
+57	        &quot;chatbot&quot;: &quot;చాట్‌బాట్&quot;, &quot;settings&quot;: &quot;సెట్టింగ్‌లు&quot;, &quot;logout&quot;: &quot;లాగ్ అవుట్&quot;,
+58	        &quot;central&quot;: &quot;కేంద్ర&quot;, &quot;state&quot;: &quot;రాష్ట్ర&quot;, &quot;category&quot;: &quot;వర్గం&quot;,
+59	        &quot;income&quot;: &quot;ఆదాయం&quot;, &quot;age&quot;: &quot;వయస్సు&quot;, &quot;gender&quot;: &quot;లింగం&quot;,
+60	        &quot;occupation&quot;: &quot;వృత్తి&quot;, &quot;education&quot;: &quot;విద్య&quot;, &quot;name&quot;: &quot;పేరు&quot;,
+</pre>
+</div>
+
+
+</div>
+</div>
+
+</div>
+
+</body>
+</html>

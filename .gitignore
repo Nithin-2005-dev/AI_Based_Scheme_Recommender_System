@@ -1,0 +1,16 @@
+node_modules/
+.next/
+__pycache__/
+venv/
+*.pyc
+.env
+backend/logs/
+backend/data/
+backend/uploads/
+.DS_Store
+frontend/.env
+backend/.env
+python312/
+python312.zip
+get-pip.py
+fix_pth.py

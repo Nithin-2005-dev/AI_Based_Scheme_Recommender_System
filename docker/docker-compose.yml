@@ -1,0 +1,96 @@
+version: "3.9"
+
+services:
+  # ===== Backend API =====
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: govscheme-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://govscheme:govscheme123@postgres:5432/govscheme
+      - REDIS_URL=redis://redis:6379/0
+      - FRONTEND_URL=http://localhost:3000
+    env_file:
+      - .env.example
+    volumes:
+      - ../backend:/app
+      - uploads:/app/uploads
+      - ../updated_data.csv:/app/updated_data.csv
+    depends_on:
+      - postgres
+      - redis
+    restart: unless-stopped
+    networks:
+      - govscheme-net
+
+  # ===== Frontend =====
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    container_name: govscheme-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - govscheme-net
+
+  # ===== PostgreSQL =====
+  postgres:
+    image: postgres:16-alpine
+    container_name: govscheme-postgres
+    environment:
+      - POSTGRES_USER=govscheme
+      - POSTGRES_PASSWORD=govscheme123
+      - POSTGRES_DB=govscheme
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - govscheme-net
+
+  # ===== Redis =====
+  redis:
+    image: redis:7-alpine
+    container_name: govscheme-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    networks:
+      - govscheme-net
+
+  # ===== Nginx Reverse Proxy =====
+  nginx:
+    image: nginx:alpine
+    container_name: govscheme-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - backend
+      - frontend
+    restart: unless-stopped
+    networks:
+      - govscheme-net
+
+volumes:
+  postgres_data:
+  redis_data:
+  uploads:
+
+networks:
+  govscheme-net:
+    driver: bridge
