@@ -14,6 +14,12 @@ from loguru import logger
 
 from app.models.user import User, UserDocument
 from app.models.scheme import Scheme
+from app.services.eligibility_rules import (
+    check_hard_eligibility,
+    calculate_eligibility_percentage,
+    normalize_state,
+    normalize_category,
+)
 
 
 class EligibilityChecker:
@@ -151,62 +157,28 @@ class EligibilityChecker:
         }
 
     def _evaluate_scheme(self, user: User, scheme: Scheme, user_docs: list[str]) -> dict:
-        """Evaluate a single scheme for a user. Returns binary eligible/not_eligible."""
-        matched = []
-        failed = []
-        missing_info = []
-        suggestions = []
-
-        eligibility_text = (scheme.eligibility or "").strip()
-        if not eligibility_text:
-            return {
-                "scheme_id": scheme.id,
-                "scheme_name": scheme.scheme_name,
-                "slug": scheme.slug,
-                "level": scheme.level,
-                "scheme_category": scheme.scheme_category,
-                "is_eligible": True,
-                "status": "eligible",
-                "confidence": 0.3,
-                "score": 0.5,
-                "matched_criteria": [],
-                "failed_criteria": [],
-                "missing_info": ["Eligibility information unavailable"],
-                "missing_documents": [],
-                "documents_required": (scheme.documents_required or "")[:500],
-                "benefits": (scheme.benefits or "")[:500],
-                "explanation": "Eligibility information unavailable for this scheme. You may still be eligible.",
-                "application_link": scheme.application_link or scheme.official_website,
-            }
-
-        conditions = self._extract_conditions(eligibility_text)
-
-        for condition in conditions:
-            check_result = self._check_condition(user, condition)
-            if check_result["status"] == "matched":
-                matched.append(check_result["description"])
-            elif check_result["status"] == "failed":
-                failed.append(check_result["description"])
-                if check_result.get("suggestion"):
-                    suggestions.append(check_result["suggestion"])
-            else:
-                missing_info.append(check_result["description"])
-
+        """Evaluate a single scheme for a user. Returns binary eligible/not_eligible respecting hard constraints."""
         missing_docs = self._check_documents(scheme, user_docs)
+        passes_hard, hard_failed = check_hard_eligibility(user, scheme)
 
-        total_checked = len(matched) + len(failed)
-        if total_checked == 0:
-            score = 0.5
-            confidence = 0.3
+        if not passes_hard:
+            is_eligible = False
+            status = "not_eligible"
+            confidence = 0.95
+            score = 0.0
+            eligibility_percentage = 0.0
+            matched_criteria = []
+            failed_criteria = hard_failed
+            reasons = [f["reason"] if isinstance(f, dict) else str(f) for f in hard_failed]
+            explanation = f"You are not eligible for this scheme: {reasons[0]}"
         else:
-            score = len(matched) / total_checked
-            confidence = min(total_checked / 5, 1.0)
-
-        # Binary classification
-        is_eligible = len(failed) == 0 and (len(matched) > 0 or total_checked == 0)
-
-        status = "eligible" if is_eligible else "not_eligible"
-        explanation = self._build_explanation(status, matched, failed, missing_docs)
+            is_eligible, eligibility_percentage, score, matched_criteria = calculate_eligibility_percentage(
+                user, scheme, True, []
+            )
+            status = "eligible"
+            confidence = 0.85
+            failed_criteria = []
+            explanation = f"You are eligible for {scheme.scheme_name}. Criteria met: {', '.join(matched_criteria[:2])}"
 
         return {
             "scheme_id": scheme.id,
@@ -214,13 +186,15 @@ class EligibilityChecker:
             "slug": scheme.slug,
             "level": scheme.level,
             "scheme_category": scheme.scheme_category,
+            "eligible": is_eligible,
             "is_eligible": is_eligible,
+            "eligibility_percentage": eligibility_percentage,
             "status": status,
             "confidence": round(confidence, 4),
             "score": round(score, 4),
-            "matched_criteria": matched,
-            "failed_criteria": failed,
-            "missing_info": missing_info,
+            "matched_criteria": matched_criteria,
+            "failed_criteria": failed_criteria,
+            "missing_info": [],
             "missing_documents": missing_docs,
             "documents_required": (scheme.documents_required or "")[:500],
             "benefits": (scheme.benefits or "")[:500],
@@ -231,89 +205,58 @@ class EligibilityChecker:
     async def check_eligibility(self, user: User, scheme_id: int) -> dict:
         """
         Check if a user is eligible for a specific scheme.
-
-        Returns:
-            {
-                "scheme_id": int,
-                "scheme_name": str,
-                "status": "eligible" | "partially_eligible" | "not_eligible",
-                "score": float,
-                "confidence": float,
-                "matched_criteria": [...],
-                "failed_criteria": [...],
-                "missing_documents": [...],
-                "suggestions": [...],
-                "explanation": str,
-            }
+        Guarantees hard eligibility gates and score invariant.
         """
         result = await self.db.execute(select(Scheme).where(Scheme.id == scheme_id))
         scheme = result.scalar_one_or_none()
         if not scheme:
             raise ValueError("Scheme not found")
 
-        # Get user's documents
         doc_result = await self.db.execute(
             select(UserDocument).where(UserDocument.user_id == user.id)
         )
         user_docs = [d.document_type.lower() for d in doc_result.scalars().all()]
 
-        matched = []
-        failed = []
-        suggestions = []
-
-        # ===== Extract and check eligibility rules =====
-        eligibility_text = (scheme.eligibility or "").strip()
-        if not eligibility_text:
-            return self._build_result(
-                scheme, "eligible", 0.5, 0.3, matched, failed, [], suggestions,
-                "No specific eligibility criteria found for this scheme."
-            )
-
-        # Parse eligibility into individual conditions
-        conditions = self._extract_conditions(eligibility_text)
-
-        for condition in conditions:
-            check_result = self._check_condition(user, condition)
-            if check_result["status"] == "matched":
-                matched.append(check_result["description"])
-            elif check_result["status"] == "failed":
-                failed.append(check_result["description"])
-                if check_result.get("suggestion"):
-                    suggestions.append(check_result["suggestion"])
-            # "unknown" conditions are skipped
-
-        # ===== Check required documents =====
+        passes_hard, hard_failed = check_hard_eligibility(user, scheme)
         missing_docs = self._check_documents(scheme, user_docs)
 
-        # ===== Calculate eligibility score =====
-        total = len(matched) + len(failed)
-        if total == 0:
-            score = 0.5
-        else:
-            score = len(matched) / total
-
-        # Determine status
-        if score >= 0.8 and not failed:
-            status = "eligible"
-        elif score >= 0.4:
-            status = "partially_eligible"
-        else:
+        if not passes_hard:
+            is_eligible = False
             status = "not_eligible"
+            score = 0.0
+            eligibility_percentage = 0.0
+            confidence = 0.95
+            matched = []
+            failed = hard_failed
+            suggestions = [f["reason"] if isinstance(f, dict) else str(f) for f in hard_failed]
+            explanation = f"You are not eligible for {scheme.scheme_name}. {suggestions[0]}"
+        else:
+            is_eligible, eligibility_percentage, score, matched = calculate_eligibility_percentage(
+                user, scheme, True, []
+            )
+            confidence = 0.85
+            failed = []
+            status = "partially_eligible" if missing_docs else "eligible"
+            suggestions = ["Upload required documents to complete your application"] if missing_docs else []
+            explanation = self._build_explanation(status, matched, [], missing_docs)
 
-        # Adjust for missing documents
-        if missing_docs and status == "eligible":
-            status = "partially_eligible"
-            suggestions.append("Upload required documents to complete your application")
+        logger.info(f"Eligibility check: user={user.id}, scheme={scheme_id}, eligible={is_eligible}, status={status}, pct={eligibility_percentage}")
 
-        confidence = min(total / 5, 1.0)  # Higher confidence with more conditions checked
-
-        explanation = self._build_explanation(status, matched, failed, missing_docs)
-
-        logger.info(f"Eligibility check: user={user.id}, scheme={scheme_id}, status={status}, score={score:.2f}")
-
-        return self._build_result(
-            scheme, status, score, confidence, matched, failed, missing_docs, suggestions, explanation
-        )
+        return {
+            "scheme_id": scheme.id,
+            "scheme_name": scheme.scheme_name,
+            "status": status,
+            "eligible": is_eligible,
+            "is_eligible": is_eligible,
+            "eligibility_percentage": eligibility_percentage,
+            "score": round(score, 4),
+            "confidence": round(confidence, 4),
+            "matched_criteria": matched,
+            "failed_criteria": failed,
+            "missing_documents": missing_docs,
+            "suggestions": suggestions,
+            "explanation": explanation,
+        }
 
     async def check_scheme_for_chatbot(self, user: User, scheme_name: str) -> dict:
         """Check eligibility for a scheme by name (for chatbot use)."""
@@ -615,7 +558,8 @@ class EligibilityChecker:
         if failed:
             parts.append(f"\n✗ {len(failed)} condition(s) not met:")
             for f in failed[:5]:
-                parts.append(f"  • {f}")
+                reason = f.get("reason", str(f)) if isinstance(f, dict) else str(f)
+                parts.append(f"  • {reason}")
 
         if missing_docs:
             parts.append(f"\n📄 {len(missing_docs)} document(s) needed:")
@@ -631,16 +575,21 @@ class EligibilityChecker:
         score: float,
         confidence: float,
         matched: list[str],
-        failed: list[str],
+        failed: list[any],
         missing_docs: list[str],
         suggestions: list[str],
         explanation: str,
     ) -> dict:
+        is_e = status in ("eligible", "partially_eligible") and len(failed) == 0
+        pct = round(score * 100.0) if is_e else 0.0
         return {
             "scheme_id": scheme.id,
             "scheme_name": scheme.scheme_name,
             "status": status,
-            "score": round(score, 4),
+            "eligible": is_e,
+            "is_eligible": is_e,
+            "eligibility_percentage": pct,
+            "score": round(score if is_e else 0.0, 4),
             "confidence": round(confidence, 4),
             "matched_criteria": matched,
             "failed_criteria": failed,

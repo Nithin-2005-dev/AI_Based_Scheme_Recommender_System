@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import api from "@/lib/api";
+import Navbar from "@/components/Navbar";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface SchemeDetail {
   id: number;
@@ -26,7 +28,7 @@ interface EligibilityResult {
   status: string;
   score: number;
   matched_criteria: string[];
-  failed_criteria: string[];
+  failed_criteria: (string | { criterion?: string; reason?: string })[];
   missing_documents: string[];
   suggestions: string[];
   explanation: string;
@@ -35,6 +37,7 @@ interface EligibilityResult {
 export default function SchemeDetailPage() {
   const params = useParams();
   const slug = params.slug as string;
+  const { t } = useLanguage();
   const [scheme, setScheme] = useState<SchemeDetail | null>(null);
   const [eligibility, setEligibility] = useState<EligibilityResult | null>(null);
   const [checkingEligibility, setCheckingEligibility] = useState(false);
@@ -52,7 +55,7 @@ export default function SchemeDetailPage() {
 
   const loadScheme = async () => {
     try {
-      const data = await api.getScheme(slug) as SchemeDetail;
+      const data = (await api.getScheme(slug)) as SchemeDetail;
       setScheme(data);
     } catch (err) {
       console.error(err);
@@ -65,7 +68,7 @@ export default function SchemeDetailPage() {
     if (!scheme) return;
     setCheckingEligibility(true);
     try {
-      const result = await api.checkEligibility(scheme.id) as EligibilityResult;
+      const result = (await api.checkEligibility(scheme.id)) as EligibilityResult;
       setEligibility(result);
       setActiveTab("eligibility");
     } catch (err) {
@@ -91,67 +94,93 @@ export default function SchemeDetailPage() {
   if (loading) {
     return (
       <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <p style={{ color: "var(--text-muted)" }}>Loading scheme...</p>
+        <p style={{ color: "var(--text-muted)" }}>{t("common.loading", "Loading scheme...")}</p>
       </div>
     );
   }
 
   if (!scheme) {
     return (
-      <div className="container page" style={{ textAlign: "center" }}>
-        <h2>Scheme not found</h2>
-        <Link href="/schemes" className="btn btn-primary" style={{ marginTop: "1rem" }}>Browse Schemes</Link>
+      <div>
+        <Navbar />
+        <div className="container page" style={{ textAlign: "center" }}>
+          <h2>{t("schemes.noSchemesFound", "Scheme not found")}</h2>
+          <Link href="/schemes" className="btn btn-primary" style={{ marginTop: "1rem" }}>
+            {t("nav.schemes", "Browse Schemes")}
+          </Link>
+        </div>
       </div>
     );
   }
 
   const tabs = [
-    { id: "details", label: "📋 Details" },
-    { id: "eligibility", label: "✅ Eligibility" },
-    { id: "benefits", label: "🎁 Benefits" },
-    { id: "application", label: "📝 How to Apply" },
-    { id: "documents", label: "📄 Documents" },
+    { id: "details", label: `📋 ${t("schemes.details", "Details")}` },
+    { id: "eligibility", label: `✅ ${t("schemes.eligibility", "Eligibility")}` },
+    { id: "benefits", label: `🎁 ${t("schemes.benefits", "Benefits")}` },
+    { id: "application", label: `📝 ${t("schemes.howToApply", "How to Apply")}` },
+    { id: "documents", label: `📄 ${t("schemes.documentsRequired", "Documents")}` },
   ];
 
   return (
     <div>
-      <nav className="nav">
-        <div className="nav-inner">
-          <Link href="/" className="nav-logo"><span style={{ fontSize: "1.5rem" }}>🏛️</span><span>GovScheme AI</span></Link>
-          <div className="nav-links">
-            <Link href="/schemes" className="nav-link">← Back to Schemes</Link>
-            <Link href="/dashboard" className="nav-link">Dashboard</Link>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
 
       <div className="container page">
         {/* Scheme Header */}
-        <div className="card animate-slide-up" style={{ marginBottom: "2rem", border: "none", background: "linear-gradient(135deg, #1a365d, #2b6cb0)", color: "white", padding: "2.5rem" }}>
-          <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}>
-            <span className="badge" style={{ background: "rgba(255,255,255,0.2)", color: "white" }}>{scheme.level}</span>
+        <div
+          className="card animate-slide-up"
+          style={{
+            marginBottom: "2rem",
+            border: "none",
+            background: "linear-gradient(135deg, #1a365d, #2b6cb0)",
+            color: "white",
+            padding: "2.5rem",
+          }}
+        >
+          <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem", flexWrap: "wrap" }}>
+            <span className="badge" style={{ background: "rgba(255,255,255,0.2)", color: "white" }}>
+              {scheme.level === "Central" ? t("schemes.centralLevel", "Central") : t("schemes.stateLevel", "State")}
+            </span>
             {scheme.scheme_category && (
               <span className="badge" style={{ background: "rgba(255,255,255,0.15)", color: "white" }}>
                 {scheme.scheme_category.split(",")[0].trim()}
               </span>
             )}
-            <span className="badge" style={{ background: "rgba(255,255,255,0.1)", color: "white" }}>v{scheme.version}</span>
+            <span className="badge" style={{ background: "rgba(255,255,255,0.1)", color: "white" }}>
+              v{scheme.version}
+            </span>
           </div>
           <h1 style={{ fontSize: "1.75rem", lineHeight: 1.3, marginBottom: "1rem" }}>{scheme.scheme_name}</h1>
           <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
             {isLoggedIn && (
               <>
-                <button onClick={checkEligibility} className="btn btn-lg" style={{ background: "white", color: "var(--primary)" }} disabled={checkingEligibility}>
-                  {checkingEligibility ? "Checking..." : "✅ Check Eligibility"}
+                <button
+                  onClick={checkEligibility}
+                  className="btn btn-lg"
+                  style={{ background: "white", color: "var(--primary)" }}
+                  disabled={checkingEligibility}
+                >
+                  {checkingEligibility ? t("common.loading", "Checking...") : `✅ ${t("schemes.checkEligibility", "Check Eligibility")}`}
                 </button>
-                <button onClick={saveScheme} className="btn btn-lg" style={{ background: "rgba(255,255,255,0.2)", color: "white" }} disabled={saving || saved}>
-                  {saved ? "❤️ Saved" : saving ? "Saving..." : "🤍 Save Scheme"}
+                <button
+                  onClick={saveScheme}
+                  className="btn btn-lg"
+                  style={{ background: "rgba(255,255,255,0.2)", color: "white" }}
+                  disabled={saving || saved}
+                >
+                  {saved ? `❤️ ${t("schemes.savedScheme", "Saved")}` : saving ? "Saving..." : `🤍 ${t("schemes.saveScheme", "Save Scheme")}`}
                 </button>
               </>
             )}
             {scheme.application_link && (
-              <a href={scheme.application_link} target="_blank" rel="noopener noreferrer" className="btn btn-lg" style={{ background: "var(--accent)", color: "white" }}>
-                Apply Now →
+              <a
+                href={scheme.application_link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-lg"
+                style={{ background: "var(--accent)", color: "white" }}
+              >
+                {t("schemes.applyNow", "Apply Now →")}
               </a>
             )}
           </div>
@@ -159,30 +188,73 @@ export default function SchemeDetailPage() {
 
         {/* Eligibility Result */}
         {eligibility && (
-          <div className="card animate-fade-in" style={{
-            marginBottom: "2rem",
-            borderLeft: `4px solid ${eligibility.status === "eligible" ? "var(--success)" : eligibility.status === "partially_eligible" ? "var(--warning)" : "var(--error)"}`,
-          }}>
+          <div
+            className="card animate-fade-in"
+            style={{
+              marginBottom: "2rem",
+              borderLeft: `4px solid ${
+                eligibility.status === "eligible"
+                  ? "var(--success)"
+                  : eligibility.status === "partially_eligible"
+                    ? "var(--warning)"
+                    : "var(--error)"
+              }`,
+            }}
+          >
             <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1rem" }}>
-              <div style={{
-                fontSize: "2rem", width: "56px", height: "56px", borderRadius: "50%",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                background: eligibility.status === "eligible" ? "#ecfdf5" : eligibility.status === "partially_eligible" ? "#fffbeb" : "#fef2f2",
-              }}>
+              <div
+                style={{
+                  fontSize: "2rem",
+                  width: "56px",
+                  height: "56px",
+                  borderRadius: "50%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  background:
+                    eligibility.status === "eligible"
+                      ? "#ecfdf5"
+                      : eligibility.status === "partially_eligible"
+                        ? "#fffbeb"
+                        : "#fef2f2",
+                }}
+              >
                 {eligibility.status === "eligible" ? "✅" : eligibility.status === "partially_eligible" ? "⚠️" : "❌"}
               </div>
               <div>
-                <h3 className={`status-${eligibility.status === "eligible" ? "eligible" : eligibility.status === "partially_eligible" ? "partial" : "not-eligible"}`}>
-                  {eligibility.status === "eligible" ? "You are Eligible!" :
-                   eligibility.status === "partially_eligible" ? "Partially Eligible" : "Not Eligible"}
+                <h3
+                  className={`status-${
+                    eligibility.status === "eligible"
+                      ? "eligible"
+                      : eligibility.status === "partially_eligible"
+                        ? "partial"
+                        : "not-eligible"
+                  }`}
+                >
+                  {eligibility.status === "eligible"
+                    ? t("schemes.eligibleMsg", "You are Eligible!")
+                    : eligibility.status === "partially_eligible"
+                      ? t("common.partiallyEligible", "Partially Eligible")
+                      : t("common.notEligible", "Not Eligible")}
                 </h3>
                 <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginTop: "0.25rem" }}>
                   <span style={{ fontSize: "0.875rem", color: "var(--text-muted)" }}>
-                    Score: {Math.round(eligibility.score * 100)}%
+                    {t("recommendations.score", "Score")}:{" "}
+                    {eligibility.status === "not_eligible" ? 0 : Math.round(eligibility.score * 100)}%
                   </span>
                   <div className="progress-bar" style={{ width: "100px" }}>
-                    <div className={`progress-bar-fill ${eligibility.status === "eligible" ? "eligible" : eligibility.status === "partially_eligible" ? "partial" : "not-eligible"}`}
-                      style={{ width: `${eligibility.score * 100}%` }} />
+                    <div
+                      className={`progress-bar-fill ${
+                        eligibility.status === "eligible"
+                          ? "eligible"
+                          : eligibility.status === "partially_eligible"
+                            ? "partial"
+                            : "not-eligible"
+                      }`}
+                      style={{
+                        width: `${eligibility.status === "not_eligible" ? 0 : eligibility.score * 100}%`,
+                      }}
+                    />
                   </div>
                 </div>
               </div>
@@ -190,25 +262,64 @@ export default function SchemeDetailPage() {
 
             {eligibility.matched_criteria.length > 0 && (
               <div style={{ marginBottom: "1rem" }}>
-                <h4 style={{ fontSize: "0.875rem", color: "var(--success)", marginBottom: "0.5rem" }}>✓ Matched Criteria</h4>
+                <h4 style={{ fontSize: "0.875rem", color: "var(--success)", marginBottom: "0.5rem" }}>
+                  ✓ {t("recommendations.matchedCriteria", "Matched Criteria")}
+                </h4>
                 {eligibility.matched_criteria.map((c, i) => (
-                  <div key={i} style={{ fontSize: "0.875rem", color: "var(--text-secondary)", paddingLeft: "1rem", marginBottom: "0.25rem" }}>• {c}</div>
+                  <div
+                    key={i}
+                    style={{
+                      fontSize: "0.875rem",
+                      color: "var(--text-secondary)",
+                      paddingLeft: "1rem",
+                      marginBottom: "0.25rem",
+                    }}
+                  >
+                    • {c}
+                  </div>
                 ))}
               </div>
             )}
             {eligibility.failed_criteria.length > 0 && (
               <div style={{ marginBottom: "1rem" }}>
-                <h4 style={{ fontSize: "0.875rem", color: "var(--error)", marginBottom: "0.5rem" }}>✗ Failed Criteria</h4>
-                {eligibility.failed_criteria.map((c, i) => (
-                  <div key={i} style={{ fontSize: "0.875rem", color: "var(--text-secondary)", paddingLeft: "1rem", marginBottom: "0.25rem" }}>• {c}</div>
-                ))}
+                <h4 style={{ fontSize: "0.875rem", color: "var(--error)", marginBottom: "0.5rem" }}>
+                  ✗ {t("recommendations.failedCriteria", "Failed Criteria")}
+                </h4>
+                {eligibility.failed_criteria.map((c, i) => {
+                  const text = typeof c === "object" && c !== null ? (c as { reason?: string }).reason || JSON.stringify(c) : String(c);
+                  return (
+                    <div
+                      key={i}
+                      style={{
+                        fontSize: "0.875rem",
+                        color: "var(--text-secondary)",
+                        paddingLeft: "1rem",
+                        marginBottom: "0.25rem",
+                      }}
+                    >
+                      • {text}
+                    </div>
+                  );
+                })}
               </div>
             )}
             {eligibility.missing_documents.length > 0 && (
               <div>
-                <h4 style={{ fontSize: "0.875rem", color: "var(--warning)", marginBottom: "0.5rem" }}>📄 Missing Documents</h4>
+                <h4 style={{ fontSize: "0.875rem", color: "var(--warning)", marginBottom: "0.5rem" }}>
+                  📄 {t("schemes.missingDocuments", "Missing Documents")}
+                </h4>
                 {eligibility.missing_documents.map((d, i) => (
-                  <div key={i} style={{ fontSize: "0.875rem", color: "var(--text-secondary)", paddingLeft: "1rem", marginBottom: "0.25rem" }}>• {d}</div>
+                  <div
+                    key={i}
+                    style={{
+                      fontSize: "0.875rem",
+                      color: "var(--text-secondary)",
+                      paddingLeft: "1rem",
+                      marginBottom: "0.25rem",
+                    }}
+                  >
+                    • {d}
+                  </div>
                 ))}
               </div>
             )}
@@ -216,14 +327,26 @@ export default function SchemeDetailPage() {
         )}
 
         {/* Tabs */}
-        <div style={{ display: "flex", gap: "0.25rem", borderBottom: "2px solid var(--border)", marginBottom: "1.5rem", overflowX: "auto" }}>
+        <div
+          style={{
+            display: "flex",
+            gap: "0.25rem",
+            borderBottom: "2px solid var(--border)",
+            marginBottom: "1.5rem",
+            overflowX: "auto",
+          }}
+        >
           {tabs.map((tab) => (
-            <button key={tab.id} onClick={() => setActiveTab(tab.id)}
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
               className={`btn btn-ghost`}
               style={{
                 borderBottom: activeTab === tab.id ? "2px solid var(--primary)" : "2px solid transparent",
-                borderRadius: 0, color: activeTab === tab.id ? "var(--primary)" : "var(--text-muted)",
-                fontWeight: activeTab === tab.id ? 700 : 500, whiteSpace: "nowrap",
+                borderRadius: 0,
+                color: activeTab === tab.id ? "var(--primary)" : "var(--text-muted)",
+                fontWeight: activeTab === tab.id ? 700 : 500,
+                whiteSpace: "nowrap",
               }}
             >
               {tab.label}
@@ -235,7 +358,7 @@ export default function SchemeDetailPage() {
         <div className="card animate-fade-in" style={{ minHeight: "200px" }}>
           {activeTab === "details" && (
             <div>
-              <h3 style={{ marginBottom: "1rem" }}>Scheme Details</h3>
+              <h3 style={{ marginBottom: "1rem" }}>{t("schemes.details", "Scheme Details")}</h3>
               <div style={{ whiteSpace: "pre-wrap", color: "var(--text-secondary)", lineHeight: 1.8 }}>
                 {scheme.details || "No details available."}
               </div>
@@ -243,7 +366,7 @@ export default function SchemeDetailPage() {
           )}
           {activeTab === "eligibility" && (
             <div>
-              <h3 style={{ marginBottom: "1rem" }}>Eligibility Criteria</h3>
+              <h3 style={{ marginBottom: "1rem" }}>{t("schemes.eligibility", "Eligibility Criteria")}</h3>
               <div style={{ whiteSpace: "pre-wrap", color: "var(--text-secondary)", lineHeight: 1.8 }}>
                 {scheme.eligibility || "No eligibility criteria specified."}
               </div>
@@ -251,7 +374,7 @@ export default function SchemeDetailPage() {
           )}
           {activeTab === "benefits" && (
             <div>
-              <h3 style={{ marginBottom: "1rem" }}>Benefits</h3>
+              <h3 style={{ marginBottom: "1rem" }}>{t("schemes.benefits", "Benefits")}</h3>
               <div style={{ whiteSpace: "pre-wrap", color: "var(--text-secondary)", lineHeight: 1.8 }}>
                 {scheme.benefits || "No benefits information available."}
               </div>
@@ -259,14 +382,19 @@ export default function SchemeDetailPage() {
           )}
           {activeTab === "application" && (
             <div>
-              <h3 style={{ marginBottom: "1rem" }}>How to Apply</h3>
+              <h3 style={{ marginBottom: "1rem" }}>{t("schemes.howToApply", "How to Apply")}</h3>
               <div style={{ whiteSpace: "pre-wrap", color: "var(--text-secondary)", lineHeight: 1.8 }}>
                 {scheme.application_process || "No application process information available."}
               </div>
               {scheme.official_website && (
                 <div style={{ marginTop: "1.5rem" }}>
-                  <a href={scheme.official_website} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
-                    Visit Official Website →
+                  <a
+                    href={scheme.official_website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-primary"
+                  >
+                    {t("schemes.officialWebsite", "Visit Official Website →")}
                   </a>
                 </div>
               )}
@@ -274,7 +402,7 @@ export default function SchemeDetailPage() {
           )}
           {activeTab === "documents" && (
             <div>
-              <h3 style={{ marginBottom: "1rem" }}>Required Documents</h3>
+              <h3 style={{ marginBottom: "1rem" }}>{t("schemes.documentsRequired", "Required Documents")}</h3>
               <div style={{ whiteSpace: "pre-wrap", color: "var(--text-secondary)", lineHeight: 1.8 }}>
                 {scheme.documents_required || "No document requirements specified."}
               </div>

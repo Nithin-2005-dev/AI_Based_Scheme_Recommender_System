@@ -4,6 +4,9 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import api from "@/lib/api";
+import Navbar from "@/components/Navbar";
+import { useLanguage } from "@/context/LanguageContext";
+import { SupportedLanguage } from "@/locales";
 
 /* ===================================================================
  * Types
@@ -169,11 +172,11 @@ export default function ChatbotPage() {
   const router = useRouter();
 
   // Chat state
+  const { language, setLanguage } = useLanguage();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [sessionId, setSessionId] = useState<string | null>(null);
-  const [language, setLanguage] = useState("en");
   const [unreadCount, setUnreadCount] = useState(0);
 
   // Voice state
@@ -318,7 +321,12 @@ export default function ChatbotPage() {
           citations: { scheme_name: string; slug: string; relevance: number }[];
           confidence: number;
           session_id: string;
+          language?: string;
         };
+
+        if (data.language && data.language !== language && (data.language === "en" || data.language === "te" || data.language === "hi")) {
+          setLanguage(data.language as SupportedLanguage);
+        }
 
         setSessionId(data.session_id);
         setVoiceState("responding");
@@ -497,7 +505,7 @@ export default function ChatbotPage() {
     setVoiceError(null);
     setShowLangMismatch(null);
 
-    setLanguage(newLang);
+    setLanguage(newLang as SupportedLanguage);
   };
 
   /* ---- Derived values ---- */
@@ -512,34 +520,7 @@ export default function ChatbotPage() {
   return (
     <div style={{ height: "100vh", display: "flex", flexDirection: "column" }}>
       {/* Navigation */}
-      <nav className="nav">
-        <div className="nav-inner">
-          <Link href="/" className="nav-logo">
-            <span style={{ fontSize: "1.5rem" }}>🏛️</span>
-            <span>GovScheme AI</span>
-          </Link>
-          <div className="nav-links">
-            <Link href="/dashboard" className="nav-link">Dashboard</Link>
-            <Link href="/schemes" className="nav-link">Schemes</Link>
-            <Link href="/eligibility" className="nav-link">Eligibility</Link>
-            <Link href="/chatbot" className="nav-link active">AI Chat</Link>
-            <Link href="/notifications" className="nav-link" style={{ position: "relative" }}>
-              🔔
-              {unreadCount > 0 && (
-                <span style={{
-                  position: "absolute", top: "-2px", right: "-8px", minWidth: "18px",
-                  height: "18px", background: "var(--error)", borderRadius: "var(--radius-full)",
-                  fontSize: "0.6875rem", color: "white", display: "flex", alignItems: "center",
-                  justifyContent: "center", fontWeight: 700, padding: "0 4px",
-                }}>
-                  {unreadCount > 99 ? "99+" : unreadCount}
-                </span>
-              )}
-            </Link>
-            <Link href="/profile" className="nav-link">Profile</Link>
-          </div>
-        </div>
-      </nav>
+      <Navbar unreadCount={unreadCount} />
 
       <div className="chat-container">
         {/* ===== Header ===== */}

@@ -15,6 +15,7 @@ from app.models.scheme import Scheme
 from app.models.user import User
 from app.models.notification import ChatHistory
 from app.core.config import get_settings
+from app.services.eligibility_rules import detect_language
 
 settings = get_settings()
 
@@ -149,7 +150,11 @@ class RAGChatbot:
             Format response → Translate to user's language → Return
           If general question → Existing RAG pipeline → Translate → Return
         """
-        if language not in SUPPORTED_CHAT_LANGUAGES:
+        # Dynamically detect language from the user question
+        detected_lang = detect_language(message)
+        if detected_lang in ("te", "hi"):
+            language = detected_lang
+        elif language not in SUPPORTED_CHAT_LANGUAGES:
             language = "en"
 
         if not session_id:
@@ -415,11 +420,67 @@ class RAGChatbot:
         words = re.findall(r'\b\w+\b', message.lower())
         keywords = [w for w in words if w not in stop_words and len(w) > 2]
 
+        # Map Telugu and Hindi words to English concept keywords
+        topical_map = {
+            # Students & Education
+            "విద్యార్థి": ["student", "scholarship", "education"],
+            "విద్యార్థులకు": ["student", "scholarship", "education"],
+            "స్కాలర్‌షిప్": ["scholarship"],
+            "చదువు": ["education", "student"],
+            "छात्र": ["student", "scholarship", "education"],
+            "छात्रों": ["student", "scholarship", "education"],
+            "विद्यार्थी": ["student", "scholarship", "education"],
+            "छात्रवृत्ति": ["scholarship"],
+            "शिक्षा": ["education", "scholarship"],
+            # Farmers & Agriculture
+            "రైతు": ["farmer", "kisan", "agriculture"],
+            "రైతులకు": ["farmer", "kisan", "agriculture"],
+            "వ్యవసాయం": ["agriculture", "farmer"],
+            "వ్యవసాయ": ["agriculture", "farmer"],
+            "किसान": ["farmer", "kisan", "agriculture"],
+            "किसानों": ["farmer", "kisan", "agriculture"],
+            "कृषि": ["agriculture", "farmer"],
+            # Women & Girls
+            "మహిళ": ["women", "woman", "female"],
+            "మహిళలకు": ["women", "woman", "female"],
+            "స్త్రీ": ["women", "female"],
+            "महिला": ["women", "woman", "female"],
+            "महिलाओं": ["women", "female"],
+            "लड़की": ["girl", "female"],
+            # Health
+            "ఆరోగ్య": ["health", "medical", "ayushman"],
+            "వైద్య": ["medical", "health"],
+            "स्वास्थ्य": ["health", "medical", "ayushman"],
+            "इलाज": ["treatment", "health"],
+            # Housing
+            "గృహ": ["housing", "shelter", "pmay"],
+            "ఇల్లు": ["housing", "shelter"],
+            "ఆవాస్": ["housing", "pmay"],
+            "आवास": ["housing", "shelter", "pmay"],
+            "घर": ["housing", "shelter"],
+            "मकान": ["housing", "shelter"],
+            # Pension & Senior Citizen
+            "వృద్ధాప్య": ["old age", "pension", "senior citizen"],
+            "పెన్షన్": ["pension"],
+            "वृद्धावस्था": ["old age", "pension", "senior citizen"],
+            "पेंशन": ["pension"],
+            # Business & Loans
+            "వ్యాపార": ["business", "msme", "mudra"],
+            "రుణం": ["loan", "credit", "mudra"],
+            "రుణాలు": ["loan", "mudra"],
+            "व्यापार": ["business", "msme", "mudra"],
+            "व्यवसाय": ["business", "msme"],
+            "ऋण": ["loan", "mudra"],
+        }
+        for term, mapped in topical_map.items():
+            if term in message:
+                keywords.extend(mapped)
+
         # Also handle Telugu/Hindi by keeping non-ASCII words
         non_ascii = re.findall(r'[^\x00-\x7F]+', message)
         keywords.extend(non_ascii)
 
-        return keywords
+        return list(dict.fromkeys(keywords))
 
     async def _retrieve_relevant_schemes(
         self, keywords: list[str], intent: str, limit: int = 5

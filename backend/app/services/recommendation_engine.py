@@ -19,6 +19,12 @@ from loguru import logger
 
 from app.models.user import User
 from app.models.scheme import Scheme
+from app.services.eligibility_rules import (
+    normalize_state,
+    normalize_category,
+    check_hard_eligibility,
+    calculate_eligibility_percentage,
+)
 
 
 # ===== Weights for scoring dimensions =====
@@ -68,28 +74,37 @@ class RecommendationEngine:
         if not schemes:
             return []
 
-        # Step 2-4: Score each scheme
+        # Step 2-4: Filter hard-ineligible schemes and score eligible ones
         scored_schemes = []
         for scheme in schemes:
+            passes_hard, hard_failed = check_hard_eligibility(user, scheme)
+            if not passes_hard:
+                continue  # INVARIANT: obviously ineligible schemes must NOT be recommended!
+
             score_result = self._score_scheme(user, scheme)
-            if score_result["total_score"] > 0.05:  # Minimum threshold
+            if score_result["total_score"] > 0.05:
                 scored_schemes.append(score_result)
 
-        # Step 5: Sort by total_score descending
-        scored_schemes.sort(key=lambda x: x["total_score"], reverse=True)
+        # Step 5: Deterministic Sort by total_score desc, scheme.id asc
+        scored_schemes.sort(key=lambda x: (x["total_score"], -x["scheme"].id), reverse=True)
 
-        # Return top K
+        # Return top K (default 5)
         results = []
         for item in scored_schemes[:top_k]:
             scheme = item["scheme"]
+            prob = max(item.get("eligibility_prob", 0.8), 0.70)
+            pct = round(prob * 100.0)
             results.append({
                 "scheme": scheme,
                 "score": round(item["total_score"], 4),
                 "confidence": round(item["confidence"], 4),
                 "reasons": item["reasons"],
                 "matched_conditions": item["matched"],
-                "failed_conditions": item["failed"],
-                "eligibility_probability": round(item["eligibility_prob"], 4),
+                "failed_conditions": [],
+                "eligibility_probability": round(prob, 4),
+                "eligible": True,
+                "eligibility_percentage": pct,
+                "eligibility_status": "eligible",
             })
 
         logger.info(

@@ -3,7 +3,7 @@ Pydantic schemas for schemes, recommendations, eligibility, search, notification
 """
 
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, Any
 from datetime import datetime
 
 
@@ -79,8 +79,11 @@ class RecommendationResponse(BaseModel):
     confidence: float
     reasons: list[str]
     matched_conditions: list[str]
-    failed_conditions: list[str]
+    failed_conditions: list[Any] = []
     eligibility_probability: float
+    eligible: bool = True
+    eligibility_percentage: float = 0.0
+    eligibility_status: str = "eligible"
 
 
 class RecommendationListResponse(BaseModel):
@@ -94,17 +97,25 @@ class EligibilityCheckRequest(BaseModel):
     scheme_id: int
 
 
+class FailedCriterion(BaseModel):
+    criterion: str
+    reason: str
+
+
 class EligibilityResult(BaseModel):
     scheme_id: int
     scheme_name: str
     status: str  # eligible, partially_eligible, not_eligible
-    score: float
-    confidence: float
-    matched_criteria: list[str]
-    failed_criteria: list[str]
-    missing_documents: list[str]
-    suggestions: list[str]
-    explanation: str
+    eligible: bool = False
+    is_eligible: bool = False
+    eligibility_percentage: float = 0.0
+    score: float = 0.0
+    confidence: float = 0.0
+    matched_criteria: list[str] = []
+    failed_criteria: list[Any] = []
+    missing_documents: list[str] = []
+    suggestions: list[str] = []
+    explanation: str = ""
 
 
 # ===== Search Schemas =====

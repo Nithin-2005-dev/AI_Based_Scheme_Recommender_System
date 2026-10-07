@@ -60,9 +60,11 @@ async def get_recommendations(
             "confidence": r["confidence"],
             "reasons": r["reasons"],
             "matched_conditions": r["matched_conditions"],
-            "failed_conditions": r["failed_conditions"],
+            "failed_conditions": r.get("failed_conditions", []),
             "eligibility_probability": r["eligibility_probability"],
-            "eligibility_status": "eligible" if r["eligibility_probability"] >= 0.5 else "not_eligible",
+            "eligible": r.get("eligible", True),
+            "eligibility_percentage": r.get("eligibility_percentage", round(r["eligibility_probability"] * 100)),
+            "eligibility_status": r.get("eligibility_status", "eligible"),
         })
 
     return {

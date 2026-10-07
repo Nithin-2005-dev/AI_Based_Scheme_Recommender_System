@@ -22,6 +22,8 @@ export const metadata: Metadata = {
   ],
 };
 
+import { LanguageProvider } from "@/context/LanguageContext";
+
 export default function RootLayout({
   children,
 }: {
@@ -34,7 +36,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#1a365d" />
       </head>
       <body className={`${inter.variable} font-sans antialiased`}>
-        {children}
+        <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
   );
