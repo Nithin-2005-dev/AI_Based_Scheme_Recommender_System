@@ -149,7 +149,7 @@ async def test_async_top5_recommendations():
             id=10, email="farmer@test.com", hashed_password="x",
             full_name="Ramesh", age=40, state="Maharashtra",
             category="OBC", is_farmer=True, occupation="Farmer",
-            annual_family_income=150000.0
+            annual_family_income=300000.0
         )
         engine = RecommendationEngine(db)
         recs = await engine.get_recommendations(user_farmer, top_k=5)

@@ -180,22 +180,22 @@ function SchemesContent() {
                       animationDelay: `${i * 0.05}s`,
                     }}
                   >
-                    <div style={{ display: "flex", gap: "0.5rem", marginBottom: "0.75rem", flexWrap: "wrap" }}>
+                    <div style={{ display: "flex", gap: "0.5rem", marginBottom: "0.150rem", flexWrap: "wrap" }}>
                       <span className={`badge ${scheme.level === "Central" ? "badge-primary" : "badge-accent"}`}>
                         {scheme.level === "Central" ? t("schemes.centralLevel", "Central") : t("schemes.stateLevel", "State")}
                       </span>
                       {scheme.scheme_category && (
-                        <span className="badge badge-warning" style={{ fontSize: "0.6875rem" }}>
+                        <span className="badge badge-warning" style={{ fontSize: "0.68150rem" }}>
                           {scheme.scheme_category.split(",")[0].trim().substring(0, 25)}
                         </span>
                       )}
                     </div>
                     <h4
                       style={{
-                        marginBottom: "0.75rem",
+                        marginBottom: "0.150rem",
                         color: "var(--text)",
                         lineHeight: 1.3,
-                        fontSize: "0.9375rem",
+                        fontSize: "0.93150rem",
                       }}
                     >
                       {scheme.scheme_name}
@@ -216,13 +216,13 @@ function SchemesContent() {
                     <div
                       style={{
                         marginTop: "auto",
-                        paddingTop: "0.75rem",
+                        paddingTop: "0.150rem",
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "center",
                       }}
                     >
-                      <span style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>
+                      <span style={{ fontSize: "0.150rem", color: "var(--text-muted)" }}>
                         👁️ {scheme.view_count} views
                       </span>
                       <span style={{ color: "var(--primary-light)", fontSize: "0.8125rem", fontWeight: 600 }}>
@@ -249,7 +249,7 @@ function SchemesContent() {
                   alignItems: "center",
                   padding: "0 1rem",
                   color: "var(--text-muted)",
-                  fontSize: "0.875rem",
+                  fontSize: "0.8150rem",
                 }}
               >
                 {t("schemes.pageOf", `Page ${page} of ${totalPages}`, { current: page, total: totalPages })}

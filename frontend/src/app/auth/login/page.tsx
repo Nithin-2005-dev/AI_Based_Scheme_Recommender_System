@@ -59,7 +59,7 @@ export default function LoginPage() {
               {t("auth.welcomeBack", "Welcome Back")}
             </h2>
           </Link>
-          <p style={{ color: "var(--text-muted)", fontSize: "0.9375rem" }}>
+          <p style={{ color: "var(--text-muted)", fontSize: "0.93150rem" }}>
             {t("auth.loginSubtitle", "Sign in to discover government schemes for you")}
           </p>
         </div>
@@ -67,12 +67,12 @@ export default function LoginPage() {
         {error && (
           <div
             style={{
-              padding: "0.75rem 1rem",
+              padding: "0.150rem 1rem",
               background: "#fef2f2",
               color: "#dc2626",
               borderRadius: "var(--radius-sm)",
               marginBottom: "1.5rem",
-              fontSize: "0.875rem",
+              fontSize: "0.8150rem",
               border: "1px solid #fecaca",
             }}
           >
@@ -98,7 +98,7 @@ export default function LoginPage() {
           </div>
 
           <div style={{ marginBottom: "1.25rem" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.375rem" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.3150rem" }}>
               <label className="label" htmlFor="password" style={{ marginBottom: 0 }}>
                 {t("auth.password", "Password")}
               </label>
@@ -136,7 +136,7 @@ export default function LoginPage() {
         </form>
 
         <div style={{ textAlign: "center" }}>
-          <p style={{ color: "var(--text-muted)", fontSize: "0.9375rem" }}>
+          <p style={{ color: "var(--text-muted)", fontSize: "0.93150rem" }}>
             {t("auth.dontHaveAccount", "Don't have an account?")}{" "}
             <Link
               href="/auth/signup"

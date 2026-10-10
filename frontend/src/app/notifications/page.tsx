@@ -160,7 +160,7 @@ export default function NotificationsPage() {
               {t("notifications.unreadTotal", `${unreadCount} unread · ${total} total`, { unread: unreadCount, total })}
             </p>
           </div>
-          <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: "0.150rem", flexWrap: "wrap" }}>
             <div
               style={{
                 display: "flex",
@@ -192,7 +192,7 @@ export default function NotificationsPage() {
         </div>
 
         {loading ? (
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.150rem" }}>
             {[...Array(5)].map((_, i) => (
               <div key={i} className="skeleton" style={{ height: "80px" }} />
             ))}
@@ -208,7 +208,7 @@ export default function NotificationsPage() {
             </p>
           </div>
         ) : (
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.150rem" }}>
             {notifications.map((n, i) => {
               const typeBadge = getTypeBadge(n.notification_type);
               return (
@@ -226,13 +226,13 @@ export default function NotificationsPage() {
                     <div style={{ fontSize: "1.5rem", flexShrink: 0 }}>{getIcon(n.notification_type)}</div>
                     <div style={{ flex: 1 }}>
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                        <h4 style={{ fontSize: "0.9375rem", marginBottom: "0.25rem" }}>{n.title}</h4>
+                        <h4 style={{ fontSize: "0.93150rem", marginBottom: "0.25rem" }}>{n.title}</h4>
                         <div style={{ display: "flex", gap: "0.5rem", alignItems: "center", flexShrink: 0 }}>
                           {!n.is_read && (
                             <button
                               onClick={() => markRead(n.id)}
                               className="btn btn-ghost btn-sm"
-                              style={{ fontSize: "0.75rem", padding: "0.125rem 0.5rem" }}
+                              style={{ fontSize: "0.150rem", padding: "0.125rem 0.5rem" }}
                             >
                               {t("notifications.markRead", "Mark read")}
                             </button>
@@ -240,28 +240,28 @@ export default function NotificationsPage() {
                           <button
                             onClick={() => deleteNotification(n.id)}
                             className="btn btn-ghost btn-sm"
-                            style={{ fontSize: "0.75rem", padding: "0.125rem 0.5rem", color: "var(--error)" }}
+                            style={{ fontSize: "0.150rem", padding: "0.125rem 0.5rem", color: "var(--error)" }}
                           >
                             ✕
                           </button>
                         </div>
                       </div>
-                      <p style={{ color: "var(--text-secondary)", fontSize: "0.875rem", lineHeight: 1.5 }}>
+                      <p style={{ color: "var(--text-secondary)", fontSize: "0.8150rem", lineHeight: 1.5 }}>
                         {n.message}
                       </p>
                       <div
                         style={{
                           display: "flex",
-                          gap: "0.75rem",
+                          gap: "0.150rem",
                           marginTop: "0.5rem",
                           alignItems: "center",
                           flexWrap: "wrap",
                         }}
                       >
-                        <span style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>
+                        <span style={{ fontSize: "0.150rem", color: "var(--text-muted)" }}>
                           {new Date(n.created_at).toLocaleString()}
                         </span>
-                        <span className={`badge ${typeBadge.cls}`} style={{ fontSize: "0.6875rem" }}>
+                        <span className={`badge ${typeBadge.cls}`} style={{ fontSize: "0.68150rem" }}>
                           {typeBadge.label}
                         </span>
                         <span
@@ -272,14 +272,14 @@ export default function NotificationsPage() {
                                 ? "badge-warning"
                                 : "badge-primary"
                           }`}
-                          style={{ fontSize: "0.6875rem" }}
+                          style={{ fontSize: "0.68150rem" }}
                         >
                           {n.priority}
                         </span>
                         {n.scheme_name && (
                           <Link
                             href="/schemes"
-                            style={{ fontSize: "0.75rem", color: "var(--primary-light)", textDecoration: "none" }}
+                            style={{ fontSize: "0.150rem", color: "var(--primary-light)", textDecoration: "none" }}
                           >
                             {n.scheme_name} →
                           </Link>
@@ -289,8 +289,8 @@ export default function NotificationsPage() {
                       {n.change_details && n.notification_type === "rule_change" && (
                         <div
                           style={{
-                            marginTop: "0.75rem",
-                            padding: "0.75rem",
+                            marginTop: "0.150rem",
+                            padding: "0.150rem",
                             background: "var(--bg-sidebar)",
                             borderRadius: "var(--radius-sm)",
                             fontSize: "0.8125rem",

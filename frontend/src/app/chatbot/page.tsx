@@ -535,7 +535,7 @@ export default function ChatbotPage() {
                   : "Powered by official government scheme documents"}
             </p>
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.150rem", flexWrap: "wrap" }}>
             {/* Voice conversation toggle */}
             {sttSupported && (
               <label className="voice-conv-toggle" title="Auto voice conversation mode">
@@ -549,8 +549,8 @@ export default function ChatbotPage() {
               </label>
             )}
             {/* Language selector */}
-            <div style={{ display: "flex", alignItems: "center", gap: "0.375rem" }}>
-              <span style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.3150rem" }}>
+              <span style={{ fontSize: "0.150rem", color: "var(--text-muted)" }}>
                 {language === "te" ? "భాష:" : language === "hi" ? "भाषा:" : "Language:"}
               </span>
               <select
@@ -610,8 +610,8 @@ export default function ChatbotPage() {
               {/* Citations */}
               {msg.citations && msg.citations.length > 0 && (
                 <div style={{
-                  alignSelf: "flex-start", marginTop: "0.375rem",
-                  padding: "0.625rem 0.875rem", background: "var(--bg-sidebar)",
+                  alignSelf: "flex-start", marginTop: "0.3150rem",
+                  padding: "0.625rem 0.8150rem", background: "var(--bg-sidebar)",
                   borderRadius: "var(--radius-sm)", maxWidth: "80%", fontSize: "0.8125rem",
                 }}>
                   <div style={{ fontWeight: 600, marginBottom: "0.25rem", color: "var(--text-secondary)" }}>
@@ -630,7 +630,7 @@ export default function ChatbotPage() {
                     </Link>
                   ))}
                   {msg.confidence !== undefined && (
-                    <div style={{ marginTop: "0.25rem", color: "var(--text-muted)", fontSize: "0.75rem" }}>
+                    <div style={{ marginTop: "0.25rem", color: "var(--text-muted)", fontSize: "0.150rem" }}>
                       {language === "te" ? "నమ్మకం" : language === "hi" ? "विश्वास" : "Confidence"}:{" "}
                       {Math.round(msg.confidence * 100)}%
                     </div>
@@ -665,7 +665,7 @@ export default function ChatbotPage() {
               <button
                 onClick={stopListening}
                 className="btn btn-ghost btn-sm"
-                style={{ marginLeft: "auto", fontSize: "0.75rem" }}
+                style={{ marginLeft: "auto", fontSize: "0.150rem" }}
               >
                 {language === "te" ? "ఆపు" : language === "hi" ? "रोकें" : "Stop"}
               </button>
@@ -681,7 +681,7 @@ export default function ChatbotPage() {
             <button
               onClick={stopSpeaking}
               className="btn btn-ghost btn-sm"
-              style={{ marginLeft: "auto", fontSize: "0.75rem" }}
+              style={{ marginLeft: "auto", fontSize: "0.150rem" }}
             >
               ⏹ {language === "te" ? "ఆపు" : language === "hi" ? "रोकें" : "Stop"}
             </button>
@@ -698,7 +698,7 @@ export default function ChatbotPage() {
           >
             <span>⚠️</span>
             <span>{voiceError}</span>
-            <span style={{ marginLeft: "auto", opacity: 0.5, fontSize: "0.75rem" }}>✕</span>
+            <span style={{ marginLeft: "auto", opacity: 0.5, fontSize: "0.150rem" }}>✕</span>
           </div>
         )}
 
@@ -711,10 +711,10 @@ export default function ChatbotPage() {
                 .replace("{selected}", langConfig.name)
                 .replace("{detected}", showLangMismatch.detected)}
             </span>
-            <div style={{ marginLeft: "auto", display: "flex", gap: "0.375rem" }}>
+            <div style={{ marginLeft: "auto", display: "flex", gap: "0.3150rem" }}>
               <button
                 className="btn btn-primary btn-sm"
-                style={{ fontSize: "0.6875rem" }}
+                style={{ fontSize: "0.68150rem" }}
                 onClick={() => {
                   setShowLangMismatch(null);
                   sendMessage(showLangMismatch.text, "voice");
@@ -724,7 +724,7 @@ export default function ChatbotPage() {
               </button>
               <button
                 className="btn btn-ghost btn-sm"
-                style={{ fontSize: "0.6875rem" }}
+                style={{ fontSize: "0.68150rem" }}
                 onClick={() => setShowLangMismatch(null)}
               >
                 ✕
@@ -809,9 +809,9 @@ export default function ChatbotPage() {
         {/* ===== Footer ===== */}
         <div
           style={{
-            padding: "0.375rem 0 0.5rem",
+            padding: "0.3150rem 0 0.5rem",
             textAlign: "center",
-            fontSize: "0.6875rem",
+            fontSize: "0.68150rem",
             color: "var(--text-muted)",
           }}
         >

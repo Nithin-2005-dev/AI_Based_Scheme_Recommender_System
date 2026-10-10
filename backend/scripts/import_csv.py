@@ -1,5 +1,5 @@
 """
-CSV Import Script: Import all 3,400 government schemes from updated_data.csv into the database.
+CSV Import Script: Import all 300 government schemes from updated_data.csv into the database.
 
 Handles:
 - Reading CSV with proper encoding
@@ -161,10 +161,20 @@ async def import_csv(csv_path: str):
 
     # Import
     async with async_session_factory() as session:
+        # CLEAR DB
+        await session.execute(select(Scheme)) # Just to load it
+        from sqlalchemy import text
+        await session.execute(text("DELETE FROM scheme_tag_association"))
+        await session.execute(text("DELETE FROM schemes"))
+        await session.commit()
+        print("✅ Cleared old schemes")
         seen_slugs = set()
         imported = 0
         skipped = 0
         all_tags = {}
+        
+        central_count = 0
+        state_count = 0
 
         for row in rows:
             slug = (row.get("slug") or "").strip()
@@ -177,6 +187,21 @@ async def import_csv(csv_path: str):
             if slug in seen_slugs:
                 skipped += 1
                 continue
+                
+            level_clean = (row.get("level") or "Central").strip()
+            if level_clean not in ("Central", "State"):
+                level_clean = "Central"
+                
+            if level_clean == "Central":
+                if central_count >= 150:
+                    skipped += 1
+                    continue
+                central_count += 1
+            else:
+                if state_count >= 150:
+                    skipped += 1
+                    continue
+                state_count += 1
 
             # Check if already exists
             existing = await session.execute(

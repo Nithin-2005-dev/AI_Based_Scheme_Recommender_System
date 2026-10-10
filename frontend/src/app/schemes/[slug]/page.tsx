@@ -150,8 +150,8 @@ export default function SchemeDetailPage() {
               v{scheme.version}
             </span>
           </div>
-          <h1 style={{ fontSize: "1.75rem", lineHeight: 1.3, marginBottom: "1rem" }}>{scheme.scheme_name}</h1>
-          <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+          <h1 style={{ fontSize: "1.150rem", lineHeight: 1.3, marginBottom: "1rem" }}>{scheme.scheme_name}</h1>
+          <div style={{ display: "flex", gap: "0.150rem", flexWrap: "wrap" }}>
             {isLoggedIn && (
               <>
                 <button
@@ -238,7 +238,7 @@ export default function SchemeDetailPage() {
                       : t("common.notEligible", "Not Eligible")}
                 </h3>
                 <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginTop: "0.25rem" }}>
-                  <span style={{ fontSize: "0.875rem", color: "var(--text-muted)" }}>
+                  <span style={{ fontSize: "0.8150rem", color: "var(--text-muted)" }}>
                     {t("recommendations.score", "Score")}:{" "}
                     {eligibility.status === "not_eligible" ? 0 : Math.round(eligibility.score * 100)}%
                   </span>
@@ -262,14 +262,14 @@ export default function SchemeDetailPage() {
 
             {eligibility.matched_criteria.length > 0 && (
               <div style={{ marginBottom: "1rem" }}>
-                <h4 style={{ fontSize: "0.875rem", color: "var(--success)", marginBottom: "0.5rem" }}>
+                <h4 style={{ fontSize: "0.8150rem", color: "var(--success)", marginBottom: "0.5rem" }}>
                   ✓ {t("recommendations.matchedCriteria", "Matched Criteria")}
                 </h4>
                 {eligibility.matched_criteria.map((c, i) => (
                   <div
                     key={i}
                     style={{
-                      fontSize: "0.875rem",
+                      fontSize: "0.8150rem",
                       color: "var(--text-secondary)",
                       paddingLeft: "1rem",
                       marginBottom: "0.25rem",
@@ -282,7 +282,7 @@ export default function SchemeDetailPage() {
             )}
             {eligibility.failed_criteria.length > 0 && (
               <div style={{ marginBottom: "1rem" }}>
-                <h4 style={{ fontSize: "0.875rem", color: "var(--error)", marginBottom: "0.5rem" }}>
+                <h4 style={{ fontSize: "0.8150rem", color: "var(--error)", marginBottom: "0.5rem" }}>
                   ✗ {t("recommendations.failedCriteria", "Failed Criteria")}
                 </h4>
                 {eligibility.failed_criteria.map((c, i) => {
@@ -291,7 +291,7 @@ export default function SchemeDetailPage() {
                     <div
                       key={i}
                       style={{
-                        fontSize: "0.875rem",
+                        fontSize: "0.8150rem",
                         color: "var(--text-secondary)",
                         paddingLeft: "1rem",
                         marginBottom: "0.25rem",
@@ -305,14 +305,14 @@ export default function SchemeDetailPage() {
             )}
             {eligibility.missing_documents.length > 0 && (
               <div>
-                <h4 style={{ fontSize: "0.875rem", color: "var(--warning)", marginBottom: "0.5rem" }}>
+                <h4 style={{ fontSize: "0.8150rem", color: "var(--warning)", marginBottom: "0.5rem" }}>
                   📄 {t("schemes.missingDocuments", "Missing Documents")}
                 </h4>
                 {eligibility.missing_documents.map((d, i) => (
                   <div
                     key={i}
                     style={{
-                      fontSize: "0.875rem",
+                      fontSize: "0.8150rem",
                       color: "var(--text-secondary)",
                       paddingLeft: "1rem",
                       marginBottom: "0.25rem",

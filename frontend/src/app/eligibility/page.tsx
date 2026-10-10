@@ -154,7 +154,7 @@ export default function EligibilityPage() {
           onSubmit={handleSearch}
           style={{
             display: "flex",
-            gap: "0.75rem",
+            gap: "0.150rem",
             marginBottom: "1.5rem",
             flexWrap: "wrap",
           }}
@@ -311,10 +311,10 @@ export default function EligibilityPage() {
                             <div
                               key={ci}
                               style={{
-                                fontSize: "0.875rem",
+                                fontSize: "0.8150rem",
                                 color: "var(--success)",
                                 display: "flex",
-                                gap: "0.375rem",
+                                gap: "0.3150rem",
                                 marginBottom: "0.25rem",
                               }}
                             >
@@ -327,17 +327,17 @@ export default function EligibilityPage() {
 
                       {/* Failed criteria */}
                       {scheme.failed_criteria.length > 0 && (
-                        <div style={{ marginTop: "0.375rem" }}>
+                        <div style={{ marginTop: "0.3150rem" }}>
                           {scheme.failed_criteria.slice(0, expanded ? undefined : 2).map((c, ci) => {
                             const reasonText = typeof c === "object" && c !== null ? (c as { reason?: string }).reason || JSON.stringify(c) : String(c);
                             return (
                               <div
                                 key={ci}
                                 style={{
-                                  fontSize: "0.875rem",
+                                  fontSize: "0.8150rem",
                                   color: "var(--error)",
                                   display: "flex",
-                                  gap: "0.375rem",
+                                  gap: "0.3150rem",
                                   marginBottom: "0.25rem",
                                 }}
                               >
@@ -351,15 +351,15 @@ export default function EligibilityPage() {
 
                       {/* Missing info */}
                       {expanded && scheme.missing_info.length > 0 && (
-                        <div style={{ marginTop: "0.375rem" }}>
+                        <div style={{ marginTop: "0.3150rem" }}>
                           {scheme.missing_info.map((c, ci) => (
                             <div
                               key={ci}
                               style={{
-                                fontSize: "0.875rem",
+                                fontSize: "0.8150rem",
                                 color: "var(--warning)",
                                 display: "flex",
-                                gap: "0.375rem",
+                                gap: "0.3150rem",
                                 marginBottom: "0.25rem",
                               }}
                             >
@@ -396,7 +396,7 @@ export default function EligibilityPage() {
                           {percentage}%
                         </div>
                       </div>
-                      <div style={{ fontSize: "0.6875rem", color: "var(--text-muted)", marginTop: "0.25rem" }}>
+                      <div style={{ fontSize: "0.68150rem", color: "var(--text-muted)", marginTop: "0.25rem" }}>
                         {scheme.is_eligible ? t("eligibility.confidenceLabel", "confidence") : t("common.notEligible", "Not Eligible")}
                       </div>
                     </div>
@@ -406,8 +406,8 @@ export default function EligibilityPage() {
                   {expanded && (
                     <div style={{ marginTop: "1rem", paddingTop: "1rem", borderTop: "1px solid var(--border)" }}>
                       {scheme.missing_documents.length > 0 && (
-                        <div style={{ marginBottom: "0.75rem" }}>
-                          <strong style={{ fontSize: "0.875rem" }}>📄 {t("schemes.missingDocuments", "Missing Documents")}:</strong>
+                        <div style={{ marginBottom: "0.150rem" }}>
+                          <strong style={{ fontSize: "0.8150rem" }}>📄 {t("schemes.missingDocuments", "Missing Documents")}:</strong>
                           {scheme.missing_documents.map((d, di) => (
                             <div key={di} style={{ fontSize: "0.8125rem", color: "var(--text-secondary)", paddingLeft: "1rem" }}>
                               • {d}
@@ -416,16 +416,16 @@ export default function EligibilityPage() {
                         </div>
                       )}
                       {scheme.documents_required && (
-                        <div style={{ marginBottom: "0.75rem" }}>
-                          <strong style={{ fontSize: "0.875rem" }}>📋 {t("schemes.documentsRequired", "Required Documents")}:</strong>
+                        <div style={{ marginBottom: "0.150rem" }}>
+                          <strong style={{ fontSize: "0.8150rem" }}>📋 {t("schemes.documentsRequired", "Required Documents")}:</strong>
                           <p style={{ fontSize: "0.8125rem", color: "var(--text-secondary)", marginTop: "0.25rem" }}>
                             {scheme.documents_required}
                           </p>
                         </div>
                       )}
                       {scheme.benefits && (
-                        <div style={{ marginBottom: "0.75rem" }}>
-                          <strong style={{ fontSize: "0.875rem" }}>🎁 {t("schemes.benefits", "Benefits")}:</strong>
+                        <div style={{ marginBottom: "0.150rem" }}>
+                          <strong style={{ fontSize: "0.8150rem" }}>🎁 {t("schemes.benefits", "Benefits")}:</strong>
                           <p style={{ fontSize: "0.8125rem", color: "var(--text-secondary)", marginTop: "0.25rem" }}>
                             {scheme.benefits}
                           </p>
@@ -438,7 +438,7 @@ export default function EligibilityPage() {
                   )}
 
                   {/* Actions */}
-                  <div style={{ marginTop: "0.75rem", display: "flex", gap: "0.75rem", alignItems: "center", flexWrap: "wrap" }}>
+                  <div style={{ marginTop: "0.150rem", display: "flex", gap: "0.150rem", alignItems: "center", flexWrap: "wrap" }}>
                     <Link href={`/schemes/${scheme.slug}`} className="btn btn-primary btn-sm">
                       {t("schemes.viewDetails", "View Details")}
                     </Link>
@@ -459,7 +459,7 @@ export default function EligibilityPage() {
 
         {/* Pagination */}
         {data && data.total > 30 && (
-          <div style={{ display: "flex", justifyContent: "center", gap: "0.75rem", marginTop: "2rem" }}>
+          <div style={{ display: "flex", justifyContent: "center", gap: "0.150rem", marginTop: "2rem" }}>
             <button
               className="btn btn-outline btn-sm"
               disabled={page <= 1}
@@ -467,7 +467,7 @@ export default function EligibilityPage() {
             >
               {t("schemes.prevPage", "← Previous")}
             </button>
-            <span style={{ padding: "0.5rem 1rem", fontSize: "0.875rem", color: "var(--text-muted)" }}>
+            <span style={{ padding: "0.5rem 1rem", fontSize: "0.8150rem", color: "var(--text-muted)" }}>
               {t("schemes.pageOf", `Page ${data.page} of ${Math.ceil(data.total / 30)}`, { current: data.page, total: Math.ceil(data.total / 30) })}
             </span>
             <button

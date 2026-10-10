@@ -140,10 +140,10 @@ export default function DashboardPage() {
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
               <div>
                 <h4 style={{ marginBottom: "0.5rem" }}>{t("dashboard.completeProfile", "Complete your profile for better recommendations")}</h4>
-                <p style={{ opacity: 0.8, fontSize: "0.9375rem" }}>
+                <p style={{ opacity: 0.8, fontSize: "0.93150rem" }}>
                   {t("dashboard.profileIsComplete", `Profile is ${profileCompletion}% complete. Add more details to get accurate scheme matches.`, { count: profileCompletion })}
                 </p>
-                <div className="progress-bar" style={{ marginTop: "0.75rem", maxWidth: "300px", background: "rgba(255,255,255,0.2)" }}>
+                <div className="progress-bar" style={{ marginTop: "0.150rem", maxWidth: "300px", background: "rgba(255,255,255,0.2)" }}>
                   <div className="progress-bar-fill partial" style={{ width: `${profileCompletion}%` }} />
                 </div>
               </div>
@@ -185,7 +185,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Quick Actions */}
-        <div style={{ display: "flex", gap: "0.75rem", marginBottom: "2.5rem", flexWrap: "wrap" }}>
+        <div style={{ display: "flex", gap: "0.150rem", marginBottom: "2.5rem", flexWrap: "wrap" }}>
           <Link href="/eligibility" className="btn btn-primary">📊 {t("dashboard.checkEligibility", "Check Eligibility")}</Link>
           <Link href="/search" className="btn btn-outline">🔍 {t("dashboard.searchSchemes", "Search Schemes")}</Link>
           <Link href="/recommendations" className="btn btn-accent">🎯 {t("dashboard.viewRecommendations", "Top 5 Recommendations")}</Link>
@@ -198,7 +198,7 @@ export default function DashboardPage() {
           <div>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
               <h3>🎯 {t("dashboard.topRecommendations", "Top Recommendations")}</h3>
-              <Link href="/recommendations" style={{ color: "var(--primary-light)", fontSize: "0.875rem", textDecoration: "none" }}>
+              <Link href="/recommendations" style={{ color: "var(--primary-light)", fontSize: "0.8150rem", textDecoration: "none" }}>
                 {t("dashboard.viewAll", "View all →")}
               </Link>
             </div>
@@ -213,7 +213,7 @@ export default function DashboardPage() {
                   const pct = isEligible ? Math.round(rec.eligibility_probability * 100) : 0;
                   return (
                     <div key={i} className="card animate-fade-in" style={{ animationDelay: `${i * 0.1}s` }}>
-                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.75rem" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "0.150rem" }}>
                         <div style={{ flex: 1 }}>
                           <Link
                             href={`/schemes/${rec.scheme.slug}`}
@@ -226,14 +226,14 @@ export default function DashboardPage() {
                           >
                             {rec.scheme.scheme_name}
                           </Link>
-                          <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.375rem", flexWrap: "wrap" }}>
+                          <div style={{ display: "flex", gap: "0.5rem", marginTop: "0.3150rem", flexWrap: "wrap" }}>
                             <span
                               className={`badge ${isEligible ? "badge-success" : "badge-error"}`}
                               style={{
                                 background: isEligible ? "rgba(16,185,129,0.1)" : "rgba(239,68,68,0.1)",
                                 color: isEligible ? "var(--success)" : "var(--error)",
                                 fontWeight: 700,
-                                fontSize: "0.6875rem",
+                                fontSize: "0.68150rem",
                               }}
                             >
                               {isEligible ? `✅ ${t("common.eligible", "ELIGIBLE")}` : `❌ ${t("common.notEligible", "NOT ELIGIBLE")}`}
@@ -260,11 +260,11 @@ export default function DashboardPage() {
                           >
                             {pct}%
                           </div>
-                          <div style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>{t("recommendations.matchScore", "match")}</div>
+                          <div style={{ fontSize: "0.150rem", color: "var(--text-muted)" }}>{t("recommendations.matchScore", "match")}</div>
                         </div>
                       </div>
                       {rec.reasons.length > 0 && (
-                        <div style={{ fontSize: "0.875rem", color: "var(--success)", marginBottom: "0.5rem" }}>
+                        <div style={{ fontSize: "0.8150rem", color: "var(--success)", marginBottom: "0.5rem" }}>
                           ✓ {rec.reasons[0]}
                         </div>
                       )}
@@ -285,16 +285,16 @@ export default function DashboardPage() {
           <div>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
               <h3>🔔 {t("dashboard.recentAlerts", "Recent Alerts")}</h3>
-              <Link href="/notifications" style={{ color: "var(--primary-light)", fontSize: "0.875rem", textDecoration: "none" }}>
+              <Link href="/notifications" style={{ color: "var(--primary-light)", fontSize: "0.8150rem", textDecoration: "none" }}>
                 {t("dashboard.viewAll", "View all →")}
               </Link>
             </div>
             {notifications.length === 0 ? (
               <div className="card" style={{ textAlign: "center", padding: "2rem" }}>
-                <p style={{ color: "var(--text-muted)", fontSize: "0.875rem" }}>{t("dashboard.noAlerts", "No notifications yet")}</p>
+                <p style={{ color: "var(--text-muted)", fontSize: "0.8150rem" }}>{t("dashboard.noAlerts", "No notifications yet")}</p>
               </div>
             ) : (
-              <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.150rem" }}>
                 {notifications.map((n, i) => (
                   <div
                     key={n.id}
@@ -305,13 +305,13 @@ export default function DashboardPage() {
                       borderLeft: `3px solid ${n.is_read ? "var(--border)" : "var(--primary-light)"}`,
                     }}
                   >
-                    <div style={{ fontWeight: 600, fontSize: "0.875rem", marginBottom: "0.25rem" }}>
+                    <div style={{ fontWeight: 600, fontSize: "0.8150rem", marginBottom: "0.25rem" }}>
                       {n.title}
                     </div>
                     <div style={{ fontSize: "0.8125rem", color: "var(--text-muted)", lineHeight: 1.4 }}>
                       {n.message.substring(0, 100)}...
                     </div>
-                    <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginTop: "0.5rem" }}>
+                    <div style={{ fontSize: "0.150rem", color: "var(--text-muted)", marginTop: "0.5rem" }}>
                       {new Date(n.created_at).toLocaleDateString()}
                     </div>
                   </div>

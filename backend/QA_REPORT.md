@@ -575,7 +575,7 @@ Step 1: The interested applicant should visit (during office ...
 **1. Aapki Beti Hamari Beti** (State)
    The scheme “Aapki Beti Hamari Beti” was launched by the Department of Women and Child Development, Government of...
 
-**Query 75**: Schemes for maternity benefit?
+**Query 150**: Schemes for maternity benefit?
 > Here are the benefits provided under these schemes:
 
 **1. Consortia & Tender Marketing Scheme**
@@ -757,7 +757,7 @@ REGISTRATION Step 1: Visit the Official Portal of Rajasthan Single Signon, and c
 
 ## 7. CSV Import Statistics
 ```
-✅ Read 3400 rows with utf-8 encoding
+✅ Read 300 rows with utf-8 encoding
 ✅ Database tables created
 
 ✅ Import complete!

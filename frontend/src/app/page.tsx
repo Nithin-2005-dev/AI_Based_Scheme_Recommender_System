@@ -17,9 +17,9 @@ const CATEGORIES = [
 ];
 
 const STATS = [
-  { value: "3,397", labelKey: "schemes.schemesAvailable", defaultLabel: "Government Schemes" },
-  { value: "541", labelKey: "schemes.centralLevel", defaultLabel: "Central Schemes" },
-  { value: "2,856", labelKey: "schemes.stateLevel", defaultLabel: "State Schemes" },
+  { value: "300", labelKey: "schemes.schemesAvailable", defaultLabel: "Government Schemes" },
+  { value: "150", labelKey: "schemes.centralLevel", defaultLabel: "Central Schemes" },
+  { value: "150", labelKey: "schemes.stateLevel", defaultLabel: "State Schemes" },
   { value: "10", labelKey: "nav.logoText", defaultLabel: "Languages Supported" },
 ];
 
@@ -63,7 +63,7 @@ export default function HomePage() {
             <div
               style={{
                 display: "flex",
-                gap: "0.75rem",
+                gap: "0.150rem",
                 maxWidth: "600px",
                 margin: "0 auto",
                 background: "rgba(255,255,255,0.15)",
@@ -83,7 +83,7 @@ export default function HomePage() {
                 }}
                 style={{
                   flex: 1,
-                  padding: "0.875rem 1.25rem",
+                  padding: "0.8150rem 1.25rem",
                   borderRadius: "var(--radius-sm)",
                   border: "none",
                   fontSize: "1rem",
@@ -115,7 +115,7 @@ export default function HomePage() {
                 }}
               >
                 <div style={{ fontSize: "2rem", fontWeight: 800, color: "var(--primary)" }}>{stat.value}</div>
-                <div style={{ fontSize: "0.875rem", color: "var(--text-muted)", fontWeight: 500 }}>
+                <div style={{ fontSize: "0.8150rem", color: "var(--text-muted)", fontWeight: 500 }}>
                   {t(stat.labelKey, stat.defaultLabel)}
                 </div>
               </div>
@@ -128,7 +128,7 @@ export default function HomePage() {
       <section style={{ padding: "4rem 1.5rem" }}>
         <div className="container">
           <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-            <h2 style={{ marginBottom: "0.75rem" }}>{t("schemes.allCategories", "Browse by Category")}</h2>
+            <h2 style={{ marginBottom: "0.150rem" }}>{t("schemes.allCategories", "Browse by Category")}</h2>
             <p style={{ color: "var(--text-secondary)", maxWidth: "600px", margin: "0 auto" }}>
               Explore schemes across major categories designed for farmers, students, women, businesses, and more.
             </p>
@@ -190,7 +190,7 @@ export default function HomePage() {
       <section style={{ padding: "4rem 1.5rem", background: "var(--bg-sidebar)" }}>
         <div className="container">
           <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-            <h2 style={{ marginBottom: "0.75rem" }}>Powered by AI</h2>
+            <h2 style={{ marginBottom: "0.150rem" }}>Powered by AI</h2>
             <p style={{ color: "var(--text-secondary)" }}>Smart features that make scheme discovery effortless</p>
           </div>
           <div className="grid-cards" style={{ maxWidth: "1100px", margin: "0 auto" }}>
@@ -229,7 +229,7 @@ export default function HomePage() {
               <div key={i} className="card animate-fade-in" style={{ animationDelay: `${i * 0.08}s` }}>
                 <div style={{ fontSize: "2rem", marginBottom: "1rem" }}>{feature.icon}</div>
                 <h4 style={{ marginBottom: "0.5rem" }}>{feature.title}</h4>
-                <p style={{ color: "var(--text-secondary)", fontSize: "0.9375rem", lineHeight: 1.6 }}>
+                <p style={{ color: "var(--text-secondary)", fontSize: "0.93150rem", lineHeight: 1.6 }}>
                   {feature.desc}
                 </p>
               </div>
@@ -280,7 +280,7 @@ export default function HomePage() {
               >
                 🏛️ GovScheme AI
               </div>
-              <p style={{ opacity: 0.7, fontSize: "0.875rem", lineHeight: 1.6 }}>
+              <p style={{ opacity: 0.7, fontSize: "0.8150rem", lineHeight: 1.6 }}>
                 AI-powered platform to help Indian citizens discover and access government schemes.
               </p>
             </div>
@@ -288,7 +288,7 @@ export default function HomePage() {
               <h4
                 style={{
                   marginBottom: "1rem",
-                  fontSize: "0.875rem",
+                  fontSize: "0.8150rem",
                   textTransform: "uppercase",
                   letterSpacing: "0.05em",
                 }}
@@ -298,19 +298,19 @@ export default function HomePage() {
               <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
                 <Link
                   href="/schemes"
-                  style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none", fontSize: "0.875rem" }}
+                  style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none", fontSize: "0.8150rem" }}
                 >
                   {t("nav.schemes", "Browse Schemes")}
                 </Link>
                 <Link
                   href="/search"
-                  style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none", fontSize: "0.875rem" }}
+                  style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none", fontSize: "0.8150rem" }}
                 >
                   {t("nav.search", "Search")}
                 </Link>
                 <Link
                   href="/chatbot"
-                  style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none", fontSize: "0.875rem" }}
+                  style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none", fontSize: "0.8150rem" }}
                 >
                   {t("nav.aiChat", "AI Chatbot")}
                 </Link>
@@ -320,7 +320,7 @@ export default function HomePage() {
               <h4
                 style={{
                   marginBottom: "1rem",
-                  fontSize: "0.875rem",
+                  fontSize: "0.8150rem",
                   textTransform: "uppercase",
                   letterSpacing: "0.05em",
                 }}
@@ -330,25 +330,25 @@ export default function HomePage() {
               <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
                 <Link
                   href="/schemes?category=Education"
-                  style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none", fontSize: "0.875rem" }}
+                  style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none", fontSize: "0.8150rem" }}
                 >
                   {t("categories.education", "Education")}
                 </Link>
                 <Link
                   href="/schemes?category=Agriculture"
-                  style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none", fontSize: "0.875rem" }}
+                  style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none", fontSize: "0.8150rem" }}
                 >
                   {t("categories.agriculture", "Agriculture")}
                 </Link>
                 <Link
                   href="/schemes?category=Health"
-                  style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none", fontSize: "0.875rem" }}
+                  style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none", fontSize: "0.8150rem" }}
                 >
                   {t("categories.health", "Health")}
                 </Link>
                 <Link
                   href="/schemes?category=Women"
-                  style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none", fontSize: "0.875rem" }}
+                  style={{ color: "rgba(255,255,255,0.7)", textDecoration: "none", fontSize: "0.8150rem" }}
                 >
                   {t("categories.womenChild", "Women")}
                 </Link>

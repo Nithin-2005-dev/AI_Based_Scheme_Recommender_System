@@ -157,29 +157,29 @@ export default function AdminPage() {
                 <table style={{ width: "100%", borderCollapse: "collapse" }}>
                   <thead>
                     <tr style={{ borderBottom: "2px solid var(--border)" }}>
-                      <th style={{ textAlign: "left", padding: "0.75rem", fontSize: "0.8125rem", color: "var(--text-muted)" }}>#</th>
-                      <th style={{ textAlign: "left", padding: "0.75rem", fontSize: "0.8125rem", color: "var(--text-muted)" }}>Scheme</th>
-                      <th style={{ textAlign: "left", padding: "0.75rem", fontSize: "0.8125rem", color: "var(--text-muted)" }}>Category</th>
-                      <th style={{ textAlign: "right", padding: "0.75rem", fontSize: "0.8125rem", color: "var(--text-muted)" }}>Views</th>
-                      <th style={{ textAlign: "right", padding: "0.75rem", fontSize: "0.8125rem", color: "var(--text-muted)" }}>Applications</th>
+                      <th style={{ textAlign: "left", padding: "0.150rem", fontSize: "0.8125rem", color: "var(--text-muted)" }}>#</th>
+                      <th style={{ textAlign: "left", padding: "0.150rem", fontSize: "0.8125rem", color: "var(--text-muted)" }}>Scheme</th>
+                      <th style={{ textAlign: "left", padding: "0.150rem", fontSize: "0.8125rem", color: "var(--text-muted)" }}>Category</th>
+                      <th style={{ textAlign: "right", padding: "0.150rem", fontSize: "0.8125rem", color: "var(--text-muted)" }}>Views</th>
+                      <th style={{ textAlign: "right", padding: "0.150rem", fontSize: "0.8125rem", color: "var(--text-muted)" }}>Applications</th>
                     </tr>
                   </thead>
                   <tbody>
                     {data?.popular_schemes.slice(0, 10).map((s, i) => (
                       <tr key={i} style={{ borderBottom: "1px solid var(--border)" }}>
-                        <td style={{ padding: "0.75rem", fontSize: "0.875rem" }}>{i + 1}</td>
-                        <td style={{ padding: "0.75rem", fontSize: "0.875rem" }}>
+                        <td style={{ padding: "0.150rem", fontSize: "0.8150rem" }}>{i + 1}</td>
+                        <td style={{ padding: "0.150rem", fontSize: "0.8150rem" }}>
                           <Link href={`/schemes/${s.slug}`} style={{ color: "var(--primary-light)", textDecoration: "none" }}>
                             {s.scheme_name.substring(0, 60)}
                           </Link>
                         </td>
-                        <td style={{ padding: "0.75rem" }}>
-                          <span className="badge badge-warning" style={{ fontSize: "0.6875rem" }}>
+                        <td style={{ padding: "0.150rem" }}>
+                          <span className="badge badge-warning" style={{ fontSize: "0.68150rem" }}>
                             {(s.category || "").split(",")[0].trim().substring(0, 20)}
                           </span>
                         </td>
-                        <td style={{ padding: "0.75rem", textAlign: "right", fontWeight: 600 }}>{s.view_count}</td>
-                        <td style={{ padding: "0.75rem", textAlign: "right", fontWeight: 600 }}>{s.application_count}</td>
+                        <td style={{ padding: "0.150rem", textAlign: "right", fontWeight: 600 }}>{s.view_count}</td>
+                        <td style={{ padding: "0.150rem", textAlign: "right", fontWeight: 600 }}>{s.application_count}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -190,10 +190,10 @@ export default function AdminPage() {
             {/* Category Distribution */}
             <div className="card">
               <h3 style={{ marginBottom: "1rem" }}>📂 Category Distribution</h3>
-              <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.150rem" }}>
                 {data?.category_distribution.slice(0, 10).map((cat, i) => (
                   <div key={i}>
-                    <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.875rem", marginBottom: "0.25rem" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.8150rem", marginBottom: "0.25rem" }}>
                       <span>{cat.category}</span>
                       <span style={{ color: "var(--text-muted)" }}>{cat.count} ({cat.percentage}%)</span>
                     </div>
@@ -218,26 +218,26 @@ export default function AdminPage() {
               <table style={{ width: "100%", borderCollapse: "collapse" }}>
                 <thead>
                   <tr style={{ borderBottom: "2px solid var(--border)" }}>
-                    <th style={{ textAlign: "left", padding: "0.75rem", fontSize: "0.8125rem", color: "var(--text-muted)" }}>User</th>
-                    <th style={{ textAlign: "left", padding: "0.75rem", fontSize: "0.8125rem", color: "var(--text-muted)" }}>Role</th>
-                    <th style={{ textAlign: "left", padding: "0.75rem", fontSize: "0.8125rem", color: "var(--text-muted)" }}>State</th>
-                    <th style={{ textAlign: "left", padding: "0.75rem", fontSize: "0.8125rem", color: "var(--text-muted)" }}>Verified</th>
-                    <th style={{ textAlign: "left", padding: "0.75rem", fontSize: "0.8125rem", color: "var(--text-muted)" }}>Joined</th>
+                    <th style={{ textAlign: "left", padding: "0.150rem", fontSize: "0.8125rem", color: "var(--text-muted)" }}>User</th>
+                    <th style={{ textAlign: "left", padding: "0.150rem", fontSize: "0.8125rem", color: "var(--text-muted)" }}>Role</th>
+                    <th style={{ textAlign: "left", padding: "0.150rem", fontSize: "0.8125rem", color: "var(--text-muted)" }}>State</th>
+                    <th style={{ textAlign: "left", padding: "0.150rem", fontSize: "0.8125rem", color: "var(--text-muted)" }}>Verified</th>
+                    <th style={{ textAlign: "left", padding: "0.150rem", fontSize: "0.8125rem", color: "var(--text-muted)" }}>Joined</th>
                   </tr>
                 </thead>
                 <tbody>
                   {users.map((u, i) => (
                     <tr key={i} style={{ borderBottom: "1px solid var(--border)" }}>
-                      <td style={{ padding: "0.75rem" }}>
-                        <div style={{ fontWeight: 600, fontSize: "0.875rem" }}>{u.full_name as string || "—"}</div>
+                      <td style={{ padding: "0.150rem" }}>
+                        <div style={{ fontWeight: 600, fontSize: "0.8150rem" }}>{u.full_name as string || "—"}</div>
                         <div style={{ fontSize: "0.8125rem", color: "var(--text-muted)" }}>{u.email as string}</div>
                       </td>
-                      <td style={{ padding: "0.75rem" }}>
+                      <td style={{ padding: "0.150rem" }}>
                         <span className={`badge ${u.role === "admin" ? "badge-error" : "badge-primary"}`}>{u.role as string}</span>
                       </td>
-                      <td style={{ padding: "0.75rem", fontSize: "0.875rem" }}>{u.state as string || "—"}</td>
-                      <td style={{ padding: "0.75rem" }}>{u.is_email_verified ? "✅" : "❌"}</td>
-                      <td style={{ padding: "0.75rem", fontSize: "0.8125rem", color: "var(--text-muted)" }}>
+                      <td style={{ padding: "0.150rem", fontSize: "0.8150rem" }}>{u.state as string || "—"}</td>
+                      <td style={{ padding: "0.150rem" }}>{u.is_email_verified ? "✅" : "❌"}</td>
+                      <td style={{ padding: "0.150rem", fontSize: "0.8125rem", color: "var(--text-muted)" }}>
                         {u.created_at ? new Date(u.created_at as string).toLocaleDateString() : "—"}
                       </td>
                     </tr>
@@ -268,10 +268,10 @@ export default function AdminPage() {
               </button>
               {notifResult && (
                 <div style={{
-                  marginTop: "1rem", padding: "0.75rem", borderRadius: "var(--radius-sm)",
+                  marginTop: "1rem", padding: "0.150rem", borderRadius: "var(--radius-sm)",
                   background: notifResult.includes("Failed") ? "#fef2f2" : "#ecfdf5",
                   color: notifResult.includes("Failed") ? "var(--error)" : "var(--success)",
-                  fontSize: "0.875rem",
+                  fontSize: "0.8150rem",
                 }}>
                   {notifResult}
                 </div>

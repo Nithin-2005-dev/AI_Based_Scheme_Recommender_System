@@ -10,7 +10,7 @@ from datetime import datetime
 class UserProfileUpdate(BaseModel):
     """Update user profile with all 30+ fields."""
     full_name: Optional[str] = Field(None, max_length=255)
-    age: Optional[int] = Field(None, ge=0, le=150)
+    age: Optional[int] = Field(None, ge=0, le=300)
     date_of_birth: Optional[datetime] = None
     gender: Optional[str] = None
     mobile_number: Optional[str] = Field(None, max_length=15)

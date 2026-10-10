@@ -107,7 +107,7 @@ export default function ProfilePage() {
             className="card"
             style={{
               marginBottom: "1.5rem",
-              padding: "0.75rem 1rem",
+              padding: "0.150rem 1rem",
               background: message.includes("✅") ? "#ecfdf5" : "#fef2f2",
               color: message.includes("✅") ? "var(--success)" : "var(--error)",
               border: `1px solid ${message.includes("✅") ? "#a7f3d0" : "#fecaca"}`,
@@ -119,7 +119,7 @@ export default function ProfilePage() {
 
         {/* Profile Completion */}
         <div className="card" style={{ marginBottom: "2rem" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.75rem" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.150rem" }}>
             <h4>{t("dashboard.statsProfileComplete", "Profile Completion")}</h4>
             <span style={{ fontWeight: 700, color: completion >= 70 ? "var(--success)" : "var(--warning)" }}>
               {completion}%
@@ -289,7 +289,7 @@ export default function ProfilePage() {
                 onChange={(e) => handleChange("caste", e.target.value)}
               />
             </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", paddingTop: "1.5rem" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.150rem", paddingTop: "1.5rem" }}>
               <label className="toggle">
                 <input
                   type="checkbox"
@@ -298,7 +298,7 @@ export default function ProfilePage() {
                 />
                 <span className="toggle-slider" />
               </label>
-              <span style={{ fontSize: "0.875rem" }}>Minority Status</span>
+              <span style={{ fontSize: "0.8150rem" }}>Minority Status</span>
             </div>
           </div>
         </div>
@@ -355,7 +355,7 @@ export default function ProfilePage() {
               { field: "is_pregnant_woman", label: "🤰 Pregnant Woman" },
               { field: "is_business_owner", label: "💼 Business Owner" },
             ].map(({ field, label }) => (
-              <div key={field} style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+              <div key={field} style={{ display: "flex", alignItems: "center", gap: "0.150rem" }}>
                 <label className="toggle">
                   <input
                     type="checkbox"
@@ -364,7 +364,7 @@ export default function ProfilePage() {
                   />
                   <span className="toggle-slider" />
                 </label>
-                <span style={{ fontSize: "0.875rem" }}>{label}</span>
+                <span style={{ fontSize: "0.8150rem" }}>{label}</span>
               </div>
             ))}
           </div>

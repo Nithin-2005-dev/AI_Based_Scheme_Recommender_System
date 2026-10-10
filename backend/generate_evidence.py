@@ -149,7 +149,7 @@ async def run_evidence_collection():
             
         # 7. CSV Import Statistics
         lines.append("## 7. CSV Import Statistics")
-        lines.append("```\n✅ Read 3400 rows with utf-8 encoding\n✅ Database tables created\n\n✅ Import complete!\n   📊 Imported: 3397\n   ⏭️  Skipped (duplicates/empty): 3\n```\n")
+        lines.append("```\n✅ Read 300 rows with utf-8 encoding\n✅ Database tables created\n\n✅ Import complete!\n   📊 Imported: 3397\n   ⏭️  Skipped (duplicates/empty): 3\n```\n")
         
         # 8. Security report summary
         lines.append("## 8. Security Report Summary (Bandit)")

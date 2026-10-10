@@ -751,7 +751,7 @@ class TestDatabaseSchemeCount:
     """Verify database has 300+ schemes (sync check via SQLite)"""
 
     def test_scheme_count_above_300(self):
-        """The database must have at least 300 active schemes"""
+        """The database must have exactly 300 active schemes"""
         import sqlite3
         db_path = os.path.join(
             os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
@@ -764,7 +764,7 @@ class TestDatabaseSchemeCount:
         cursor = conn.execute("SELECT COUNT(*) FROM schemes WHERE is_active=1")
         count = cursor.fetchone()[0]
         conn.close()
-        assert count >= 300, f"Expected at least 300 schemes, found {count}"
+        assert count == 300, f"Expected 300 schemes, found {count}"
 
     def test_has_central_schemes(self):
         """Must have Central government schemes"""

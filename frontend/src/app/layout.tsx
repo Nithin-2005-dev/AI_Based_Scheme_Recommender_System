@@ -11,7 +11,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "GovScheme AI — Discover Government Schemes for You",
   description:
-    "AI-powered platform to discover, check eligibility, and apply for 3,400+ government schemes across India. Personalized recommendations in 10 languages.",
+    "AI-powered platform to discover, check eligibility, and apply for 300+ government schemes across India. Personalized recommendations in 10 languages.",
   keywords: [
     "government schemes",
     "India",

@@ -73,7 +73,7 @@ export default function SignupPage() {
               {t("auth.createAccount", "Create Account")}
             </h2>
           </Link>
-          <p style={{ color: "var(--text-muted)", fontSize: "0.9375rem" }}>
+          <p style={{ color: "var(--text-muted)", fontSize: "0.93150rem" }}>
             {t("auth.signupSubtitle", "Join 1000s of citizens discovering government schemes")}
           </p>
         </div>
@@ -81,12 +81,12 @@ export default function SignupPage() {
         {error && (
           <div
             style={{
-              padding: "0.75rem 1rem",
+              padding: "0.150rem 1rem",
               background: "#fef2f2",
               color: "#dc2626",
               borderRadius: "var(--radius-sm)",
               marginBottom: "1.5rem",
-              fontSize: "0.875rem",
+              fontSize: "0.8150rem",
               border: "1px solid #fecaca",
             }}
           >
@@ -171,7 +171,7 @@ export default function SignupPage() {
         </form>
 
         <div style={{ textAlign: "center" }}>
-          <p style={{ color: "var(--text-muted)", fontSize: "0.9375rem" }}>
+          <p style={{ color: "var(--text-muted)", fontSize: "0.93150rem" }}>
             {t("auth.alreadyHaveAccount", "Already have an account?")}{" "}
             <Link
               href="/auth/login"

@@ -2,7 +2,7 @@
 
 ## AI-Driven Multilingual Personalized Government Scheme Discovery & Eligibility Guidance
 
-GovScheme AI is a production-ready web application that helps Indian citizens discover **3,400+ government schemes**, check eligibility, receive personalized recommendations, and interact with an AI-powered multilingual assistant.
+GovScheme AI is a production-ready web application that helps Indian citizens discover **300+ government schemes**, check eligibility, receive personalized recommendations, and interact with an AI-powered multilingual assistant.
 
 The platform supports **10 Indian languages** and provides personalized scheme discovery based on a user's demographic, employment, education, location, and special-status information.
 
@@ -10,7 +10,7 @@ The platform supports **10 Indian languages** and provides personalized scheme d
 
 ## ✨ Highlights
 
-* 🏛️ **3,400+ Government Schemes**
+* 🏛️ **300+ Government Schemes**
 * 🤖 **AI-powered Recommendations**
 * ✅ **Eligibility Checking**
 * 💬 **RAG-based Multilingual Chatbot**
@@ -67,7 +67,7 @@ pip install -r requirements.txt
 
 ### Import Government Schemes
 
-Import the 3,400+ schemes from the CSV dataset:
+Import the 300+ schemes from the CSV dataset:
 
 ```bash
 python scripts/import_csv.py
@@ -197,7 +197,7 @@ Sensitive information is encrypted before storage.
 
 ## 📋 Government Scheme Management
 
-* 3,400+ government schemes
+* 300+ government schemes
 * CSV-based scheme import
 * Full-text search
 * Category filtering

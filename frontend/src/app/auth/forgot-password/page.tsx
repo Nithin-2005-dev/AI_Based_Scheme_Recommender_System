@@ -32,7 +32,7 @@ export default function ForgotPasswordPage() {
         <div style={{ textAlign: "center", marginBottom: "2rem" }}>
           <div style={{ fontSize: "2.5rem", marginBottom: "0.5rem" }}>🔐</div>
           <h2 style={{ color: "var(--primary)", marginBottom: "0.25rem" }}>Reset Password</h2>
-          <p style={{ color: "var(--text-muted)", fontSize: "0.9375rem" }}>
+          <p style={{ color: "var(--text-muted)", fontSize: "0.93150rem" }}>
             Enter your email and we&apos;ll send you a reset link
           </p>
         </div>
@@ -41,7 +41,7 @@ export default function ForgotPasswordPage() {
           <div style={{ textAlign: "center" }}>
             <div style={{
               padding: "1rem", background: "#ecfdf5", color: "#059669",
-              borderRadius: "var(--radius-sm)", marginBottom: "1.5rem", fontSize: "0.9375rem",
+              borderRadius: "var(--radius-sm)", marginBottom: "1.5rem", fontSize: "0.93150rem",
               border: "1px solid #a7f3d0",
             }}>
               ✅ If the email exists, a password reset link has been sent.
@@ -52,8 +52,8 @@ export default function ForgotPasswordPage() {
           <>
             {error && (
               <div style={{
-                padding: "0.75rem 1rem", background: "#fef2f2", color: "#dc2626",
-                borderRadius: "var(--radius-sm)", marginBottom: "1.5rem", fontSize: "0.875rem", border: "1px solid #fecaca",
+                padding: "0.150rem 1rem", background: "#fef2f2", color: "#dc2626",
+                borderRadius: "var(--radius-sm)", marginBottom: "1.5rem", fontSize: "0.8150rem", border: "1px solid #fecaca",
               }}>
                 {error}
               </div>
@@ -68,7 +68,7 @@ export default function ForgotPasswordPage() {
               </button>
             </form>
             <div style={{ textAlign: "center" }}>
-              <Link href="/auth/login" style={{ color: "var(--primary-light)", fontSize: "0.9375rem", textDecoration: "none" }}>← Back to login</Link>
+              <Link href="/auth/login" style={{ color: "var(--primary-light)", fontSize: "0.93150rem", textDecoration: "none" }}>← Back to login</Link>
             </div>
           </>
         )}

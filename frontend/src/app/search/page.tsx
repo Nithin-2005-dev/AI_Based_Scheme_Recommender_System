@@ -86,15 +86,15 @@ function SearchContent() {
 
       <div className="container page">
         <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-          <h1 style={{ marginBottom: "0.75rem" }}>🔍 {t("search.title", "Search Government Schemes")}</h1>
+          <h1 style={{ marginBottom: "0.150rem" }}>🔍 {t("search.title", "Search Government Schemes")}</h1>
           <p style={{ color: "var(--text-secondary)", maxWidth: "500px", margin: "0 auto" }}>
-            {t("search.subtitle", "Search across 3,400+ schemes by keyword, category, or state")}
+            {t("search.subtitle", "Search across 300+ schemes by keyword, category, or state")}
           </p>
         </div>
 
         {/* Search Bar */}
         <form onSubmit={handleSearch} style={{ maxWidth: "700px", margin: "0 auto 2rem", position: "relative" }}>
-          <div style={{ display: "flex", gap: "0.75rem" }}>
+          <div style={{ display: "flex", gap: "0.150rem" }}>
             <div style={{ flex: 1, position: "relative" }}>
               <input
                 className="input"
@@ -130,9 +130,9 @@ function SearchContent() {
                         doSearch(item, 1);
                       }}
                       style={{
-                        padding: "0.75rem 1rem",
+                        padding: "0.150rem 1rem",
                         cursor: "pointer",
-                        fontSize: "0.9375rem",
+                        fontSize: "0.93150rem",
                         borderBottom: "1px solid var(--border)",
                       }}
                       onMouseEnter={(e) => (e.currentTarget.style.background = "var(--bg-sidebar)")}
@@ -149,7 +149,7 @@ function SearchContent() {
             </button>
           </div>
 
-          <div style={{ display: "flex", gap: "0.75rem", marginTop: "0.75rem", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: "0.150rem", marginTop: "0.150rem", flexWrap: "wrap" }}>
             <select
               className="select"
               value={category}
@@ -168,7 +168,7 @@ function SearchContent() {
               className="select"
               value={level}
               onChange={(e) => setLevel(e.target.value)}
-              style={{ maxWidth: "150px" }}
+              style={{ maxWidth: "300px" }}
             >
               <option value="">{t("schemes.allLevels", "All Levels")}</option>
               <option value="Central">{t("schemes.centralLevel", "Central")}</option>
@@ -180,7 +180,7 @@ function SearchContent() {
         {/* Suggestions */}
         {suggestions.length > 0 && (
           <div style={{ maxWidth: "700px", margin: "0 auto 2rem", display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
-            <span style={{ fontSize: "0.875rem", color: "var(--text-muted)" }}>
+            <span style={{ fontSize: "0.8150rem", color: "var(--text-muted)" }}>
               {t("search.suggestions", "Suggestions")}:
             </span>
             {suggestions.map((s, i) => (
@@ -218,17 +218,17 @@ function SearchContent() {
                     className="card animate-fade-in"
                     style={{ height: "100%", cursor: "pointer", animationDelay: `${i * 0.05}s` }}
                   >
-                    <div style={{ display: "flex", gap: "0.5rem", marginBottom: "0.75rem" }}>
+                    <div style={{ display: "flex", gap: "0.5rem", marginBottom: "0.150rem" }}>
                       <span className={`badge ${scheme.level === "Central" ? "badge-primary" : "badge-accent"}`}>
                         {scheme.level === "Central" ? t("schemes.centralLevel", "Central") : t("schemes.stateLevel", "State")}
                       </span>
                       {scheme.scheme_category && (
-                        <span className="badge badge-warning" style={{ fontSize: "0.6875rem" }}>
+                        <span className="badge badge-warning" style={{ fontSize: "0.68150rem" }}>
                           {scheme.scheme_category.split(",")[0].trim().substring(0, 20)}
                         </span>
                       )}
                     </div>
-                    <h4 style={{ marginBottom: "0.75rem", color: "var(--text)", fontSize: "0.9375rem" }}>
+                    <h4 style={{ marginBottom: "0.150rem", color: "var(--text)", fontSize: "0.93150rem" }}>
                       {scheme.scheme_name}
                     </h4>
                     <p

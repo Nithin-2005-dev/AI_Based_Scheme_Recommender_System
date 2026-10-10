@@ -60,7 +60,7 @@ export default function Navbar({ unreadCount = 0 }: NavbarProps) {
       <div className="nav-inner" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         {/* Logo */}
         <Link href="/" className="nav-logo" style={{ display: "flex", alignItems: "center", gap: "0.5rem", textDecoration: "none" }}>
-          <span style={{ fontSize: "1.75rem" }}>🏛️</span>
+          <span style={{ fontSize: "1.150rem" }}>🏛️</span>
           <span style={{ fontWeight: 800, fontSize: "1.25rem", color: "var(--primary)" }}>{t("nav.logoText", "GovScheme AI")}</span>
         </Link>
 
@@ -99,7 +99,7 @@ export default function Navbar({ unreadCount = 0 }: NavbarProps) {
                       height: "18px",
                       background: "var(--error)",
                       borderRadius: "9999px",
-                      fontSize: "0.6875rem",
+                      fontSize: "0.68150rem",
                       color: "white",
                       display: "flex",
                       alignItems: "center",
@@ -127,13 +127,13 @@ export default function Navbar({ unreadCount = 0 }: NavbarProps) {
                 display: "flex",
                 alignItems: "center",
                 gap: "0.35rem",
-                padding: "0.4rem 0.75rem",
+                padding: "0.4rem 0.150rem",
                 borderRadius: "var(--radius-sm)",
                 border: "1px solid var(--border)",
                 background: "var(--bg-card)",
                 cursor: "pointer",
                 fontWeight: 600,
-                fontSize: "0.875rem",
+                fontSize: "0.8150rem",
               }}
               title="Switch Language"
             >
@@ -152,7 +152,7 @@ export default function Navbar({ unreadCount = 0 }: NavbarProps) {
                   border: "1px solid var(--border)",
                   borderRadius: "var(--radius)",
                   boxShadow: "var(--shadow-lg)",
-                  minWidth: "150px",
+                  minWidth: "300px",
                   zIndex: 1000,
                   overflow: "hidden",
                 }}
@@ -176,7 +176,7 @@ export default function Navbar({ unreadCount = 0 }: NavbarProps) {
                       alignItems: "center",
                       gap: "0.5rem",
                       cursor: "pointer",
-                      fontSize: "0.875rem",
+                      fontSize: "0.8150rem",
                       fontWeight: language === opt.code ? 700 : 500,
                     }}
                   >
